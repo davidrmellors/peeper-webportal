@@ -1,18 +1,19 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
-
+import { initializeApp, getApps } from 'firebase-admin/app';
+import { getDatabase } from 'firebase-admin/database';
+import { credential } from 'firebase-admin';
 import { env } from "~/env";
-import * as schema from "./schema";
 
-/**
- * Cache the database connection in development. This avoids creating a new connection on every HMR
- * update.
- */
-const globalForDb = globalThis as unknown as {
-  conn: postgres.Sql | undefined;
-};
+const apps = getApps();
 
-const conn = globalForDb.conn ?? postgres(env.DATABASE_URL);
-if (env.NODE_ENV !== "production") globalForDb.conn = conn;
+if (!apps.length) {
+  initializeApp({
+    credential: credential.cert({
+      projectId: env.FIREBASE_PROJECT_ID,
+      clientEmail: env.FIREBASE_CLIENT_EMAIL,
+      privateKey: env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    }),
+    databaseURL: env.FIREBASE_DATABASE_URL,
+  });
+}
 
-export const db = drizzle(conn, { schema });
+export const db = getDatabase();

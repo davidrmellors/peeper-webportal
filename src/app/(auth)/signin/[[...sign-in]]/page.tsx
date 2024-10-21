@@ -15,7 +15,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (isSignedIn) {
-      router.push("/"); // Replace with your main authenticated route
+      router.push("/");
     }
   }, [isSignedIn, router]);
 
@@ -61,7 +61,7 @@ export default function SignIn() {
 
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
-        router.push("/"); // Replace with your main authenticated route
+        router.push("/admin"); // Replace with your main authenticated route
       } else {
         console.log("Verification failed", result);
         alert("Verification failed. Please try again.");

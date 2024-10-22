@@ -16,14 +16,15 @@ export class Student implements StudentData {
     this.student_id = data.student_id;
     this.studentNumber = data.studentNumber || "";
     this.email = data.email || "";
-    this.profilePhotoURL = data.profilePhotoURL || ""; // Initialize with default value
+    this.profilePhotoURL = data.profilePhotoURL || undefined; // Initialize with undefined instead of empty string
     this.activeOrgs = data.activeOrgs || [];
     this.locationData = {};
 
     if (data.locationData) {
       for (const key in data.locationData) {
-        if (data.locationData.hasOwnProperty(key)) {
-          this.locationData[key] = new SessionLog(data.locationData[key]);
+        const sessionLogData = data.locationData[key];
+        if (sessionLogData) {
+          this.locationData[key] = new SessionLog(sessionLogData);
         }
       }
     }
@@ -52,8 +53,11 @@ export class Student implements StudentData {
   toJSON(): StudentData {
     const locationDataJSON: { [sessionLog_id: string]: SessionLogData } = {};
     for (const key in this.locationData) {
-      if (this.locationData.hasOwnProperty(key)) {
-        locationDataJSON[key] = this.locationData[key].toJSON();
+      if (Object.prototype.hasOwnProperty.call(this.locationData, key)) {
+        const sessionLog = this.locationData[key];
+        if (sessionLog) {
+          locationDataJSON[key] = sessionLog.toJSON();
+        }
       }
     }
 

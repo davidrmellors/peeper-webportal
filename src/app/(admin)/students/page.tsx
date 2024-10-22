@@ -71,7 +71,6 @@ const StudentsPage: React.FC = () => {
           <thead className="bg-lime-500 text-white">
             <tr>
               <th className="p-2"></th>
-              <th className="p-2 text-left">STUDENT NAME <ChevronDown className="inline" /></th>
               <th className="p-2 text-left">EMAIL</th>
               <th className="p-2 text-left">HOURS</th>
               <th className="p-2 text-left">STATUS</th>
@@ -91,7 +90,6 @@ const StudentsPage: React.FC = () => {
                       className="rounded"
                     />
                   </td>
-                  <td className="p-2">{student.name}</td>
                   <td className="p-2">{student.email}</td>
                   <td className="p-2">{student.hours}</td>
                   <td className="p-2">

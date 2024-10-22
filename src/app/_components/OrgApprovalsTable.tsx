@@ -35,7 +35,7 @@ const OrgApprovalsTable: React.FC<OrgApprovalsTableProps> = ({ organizations, on
               <td className="py-3 px-4">{org.email}</td>
               <td className="py-3 px-4">{org.phoneNo}</td>
               <td className="py-3 px-4">
-                <div className="flex justify-center space-x-2">
+                <div className="flex justify-end space-x-2">
                   <button
                     onClick={() => onDeny(org.id)}
                     className="bg-red-500 text-white px-4 py-2 rounded font-bold"

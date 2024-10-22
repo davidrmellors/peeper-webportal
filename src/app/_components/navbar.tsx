@@ -17,7 +17,6 @@ const Navbar: React.FC = () => {
   return (
     <nav className="flex flex-col w-64 h-screen bg-white border-r border-gray-200">
       <div className="p-4 border-b border-gray-200">
-        {/* <Image src="/lekka-academy-logo.png" alt="Lekka Academy Logo" width={150} height={50} /> */}
         <h1 className="text-xl font-bold mt-2">LEKKA ACADEMY</h1>
         <p className="text-sm text-gray-600">Community Service Tracking</p>
       </div>

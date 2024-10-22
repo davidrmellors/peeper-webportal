@@ -1,8 +1,25 @@
+'use client';
+
 import Link from "next/link";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import PageSkeleton from "~/app/_components/PageSkeleton";
+import { api } from "~/trpc/react";
+import { useAuth } from "@clerk/nextjs";
 
 export default function Home() {
+  const router = useRouter();
+  const { isSignedIn } = useAuth();
+
+  const handleSignIn = () => {
+    if (isSignedIn) {
+      router.push("/dashboard");
+    }
+    else {
+      router.push("/signin");
+    }
+  };
+
   return (
     <Suspense fallback={<PageSkeleton />}>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-lime-500 to-lime-700 text-white">
@@ -14,15 +31,16 @@ export default function Home() {
             Community Service Tracking Portal
           </p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <Link
+            
+            <button
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="/signin"
+              onClick={handleSignIn}
             >
-              <h3 className="text-2xl font-bold">Sign In →</h3>
+              {isSignedIn ? <h3 className="text-2xl font-bold">Dashboard →</h3> : <h3 className="text-2xl font-bold">Sign In →</h3>}
               <div className="text-lg">
-                Access your account to manage community service hours.
+                {isSignedIn ? "Access your account to manage community service hours." : "Access your account to manage community service hours."}
               </div>
-            </Link>
+            </button>
             <Link
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
               href="/about"

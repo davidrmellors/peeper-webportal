@@ -5,7 +5,7 @@
 @font-face {
     font-family: 'Quittance';
     src: url('/fonts/Quittance.otf') format('o'),
-         url('/fonts/Quittance.otf') format('woff');
+         url('/fonts/Quittance.otf') format('o');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

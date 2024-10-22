@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 import AdminLayout from './(admin)/layout';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export const metadata: Metadata = {
   title: "Lekka Academy",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <body>
           <TRPCReactProvider>
             {children}
+            <ReactQueryDevtools initialIsOpen={false} />
           </TRPCReactProvider>
         </body>
       </html>

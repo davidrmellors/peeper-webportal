@@ -20,9 +20,13 @@ export default function SignIn() {
 
   useEffect(() => {
     if (isSignedIn) {
-      router.push("/dashboard ");
+      router.replace("/dashboard");
     }
   }, [isSignedIn, router]);
+
+  if (!isLoaded || isSignedIn) {
+    return null; // or return a loading spinner
+  }
 
   const handleSendVerification = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,7 +83,7 @@ export default function SignIn() {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-white text-2xl font-semibold mb-2">
+      <h2 className="text-white text-2xl mt-20 font-rany font-semibold mb-2">
         {pendingVerification ? "Your OTP Awaits! Enter It Below!" : ""}
       </h2>
       {!pendingVerification ? (
@@ -103,24 +107,24 @@ export default function SignIn() {
         </form>
       ) : (
         <form onSubmit={handleVerify} className="w-full max-w-md">
-          <div className="mb-4">
-          <InputOTP maxLength={6} color='white' value={code} onChange={(value) => setCode(value)}>
-            <InputOTPGroup>
-              <InputOTPSlot index={0} />
-              <InputOTPSlot index={1} />
-              <InputOTPSlot index={2} />
+          <div className="mb-4 flex justify-center my-10 h-14 ">
+          <InputOTP maxLength={6} height={100} color='white' value={code} onChange={(value) => setCode(value)}>
+            <InputOTPGroup >
+              <InputOTPSlot className='h-14 w-14 text-lg' index={0} />
+              <InputOTPSlot className='h-14 w-14 text-lg' index={1} />
+              <InputOTPSlot className='h-14 w-14 text-lg' index={2} />
             </InputOTPGroup>
             <InputOTPSeparator />
             <InputOTPGroup>
-              <InputOTPSlot index={3} />
-              <InputOTPSlot index={4} />
-              <InputOTPSlot index={5} />
+              <InputOTPSlot className='h-14 w-14 text-lg' index={3} />
+              <InputOTPSlot className='h-14 w-14 text-lg' index={4} />
+              <InputOTPSlot className='h-14 w-14 text-lg' index={5} />
             </InputOTPGroup>
           </InputOTP>
           </div>
           <button
             type="submit"
-            className="w-full bg-white text-lime-500 py-2 rounded-md h-16 font-semibold text-xl"
+            className="w-full mt-10 bg-white text-lime-500 py-2 rounded-md h-16 font-semibold text-xl"
           >
             Verify Email
           </button>

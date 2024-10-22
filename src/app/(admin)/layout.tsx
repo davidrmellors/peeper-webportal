@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '~/app/_components/Navbar';
+import Navbar from '~/app/_components/navbar';
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 

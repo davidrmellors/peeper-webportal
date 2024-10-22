@@ -6,7 +6,5 @@ export interface StudentData {
   email: string;
   profilePhotoURL?: string;
   activeOrgs: string[];
-  locationData: {
-    [sessionLog_id: string]: SessionLogData;
-  };
+  locationData: Record<string, SessionLogData>;
 }

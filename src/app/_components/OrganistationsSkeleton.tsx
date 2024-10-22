@@ -18,8 +18,8 @@ const OrganisationsSkeleton: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {[...Array(20)].map((_, index) => (
-              <tr key={index} className="border-b">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <tr key={i} className="border-b">
                 <td className="p-2"><Skeleton className="h-5 w-5 rounded" /></td>
                 <td className="p-2"><Skeleton className="h-6 w-full" /></td>
                 <td className="p-2"><Skeleton className="h-6 w-full" /></td>

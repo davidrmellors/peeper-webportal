@@ -10,7 +10,7 @@ const DashboardSkeleton: React.FC = () => {
       <div className="rounded-lg bg-white p-6 shadow">
         <Skeleton className="mb-4 h-6 w-1/4" /> {/* Section title */}
         <div className="space-y-4">
-          {[...Array(5)].map((_, i) => (
+          {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="flex items-center space-x-4">
               <Skeleton className="h-10 w-1/4" /> {/* Name */}
               <Skeleton className="h-10 w-1/3" /> {/* Email */}
@@ -25,7 +25,7 @@ const DashboardSkeleton: React.FC = () => {
       <div className="rounded-lg bg-white p-6 shadow">
         <Skeleton className="mb-4 h-6 w-1/4" /> {/* Section title */}
         <div className="space-y-4">
-          {[...Array(5)].map((_, i) => (
+          {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="flex items-center space-x-4">
               <Skeleton className="h-10 w-1/5" /> {/* Name */}
               <Skeleton className="h-10 w-1/5" /> {/* Submitted By */}

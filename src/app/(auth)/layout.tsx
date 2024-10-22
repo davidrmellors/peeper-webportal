@@ -7,7 +7,9 @@ export default function AuthLayout({ children }: PropsWithChildren) {
        <div className="w-24 h-24 border-4 border-white transform rotate-45"></div>
      </div>
      <div className="w-1/2 bg-lime-500 p-10 flex flex-col justify-center">
-       <h1 className="text-white text-5xl font-bold mb-8">KEEP<br/>MAKING<br/>CHANGE</h1>
+       <div className="flex justify-center">
+         <h1 className="text-white text-8xl text-left font-bold mb-8 w-fit">KEEP<br/>MAKING<br/>CHANGE</h1>
+       </div>
        {children}
      </div>
    </div>

@@ -9,7 +9,7 @@ import {
   Database,
 } from "firebase/database";
 
-import { firebaseConfig } from "../../firebase/firebaseConfig";
+import { firebaseConfig } from "../firebaseConfig";
 
 export class DatabaseUtility {
   private static app: FirebaseApp;
@@ -19,7 +19,12 @@ export class DatabaseUtility {
     if (!getApps().length) {
       this.app = initializeApp(firebaseConfig);
     } else {
-      this.app = getApps()[0];
+      const existingApp = getApps()[0];
+      if (existingApp) {
+        this.app = existingApp;
+      } else {
+        throw new Error("No Firebase app found and unable to initialize a new one.");
+      }
     }
     this.database = getDatabase(this.app);
   }

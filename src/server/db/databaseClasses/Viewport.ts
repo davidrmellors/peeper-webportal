@@ -1,4 +1,4 @@
-import { ViewportData } from '../ViewportData';
+import { ViewportData } from '../interfaces/ViewportData';
 
 export class Viewport implements ViewportData {
   low: { latitude: number; longitude: number };

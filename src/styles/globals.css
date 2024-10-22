@@ -1,3 +1,137 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Quittance';
+    src: url('/fonts/Quittance.otf') format('o'),
+         url('/fonts/Quittance.otf') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Quittance';
+    src: url('/fonts/Quittance.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Rany';
+    src: url('/fonts/Rany.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Rany';
+    src: url('/fonts/Rany-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Rany';
+    src: url('/fonts/Rany-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @layer base {
+    body {
+      @apply font-rany;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      @apply font-quittance;
+    }
+    button {
+      @apply font-rany;
+    }
+  :root {
+        --background: 120 61% 50%; /* Lime green background */
+        --foreground: 0 0% 0%; /* White text */
+        
+        --card: 120 61% 50%;
+        --card-foreground: 0 0% 100%;
+        
+        --popover: 120 61% 50%;
+        --popover-foreground: 0 0% 100%;
+        
+        --primary: 0 0% 100%; /* White for primary elements */
+        --primary-foreground: 120 61% 50%; /* Lime green text on primary elements */
+        
+        --secondary: 120 61% 45%; /* Slightly darker lime for secondary elements */
+        --secondary-foreground: 0 0% 100%;
+        
+        --muted: 120 61% 40%;
+        --muted-foreground: 0 0% 100%;
+        
+        --accent: 0 0% 100%; /* White accents */
+        --accent-foreground: 120 61% 50%;
+        
+        --destructive: 0 84.2% 60.2%; /* Keep destructive as is */
+        --destructive-foreground: 0 0% 98%;
+        
+        --border: 0 0% 100%; /* White borders */
+        --input: 0 0% 100%;
+        --ring: 0 0% 100%;
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.5rem;
+    }
+  .dark {
+        --background: 120 61% 20%; /* Darker lime green for dark mode */
+        --foreground: 0 0% 100%;
+        
+        --card: 120 61% 20%;
+        --card-foreground: 0 0% 100%;
+        
+        --popover: 120 61% 20%;
+        --popover-foreground: 0 0% 100%;
+        
+        --primary: 0 0% 100%;
+        --primary-foreground: 120 61% 50%;
+        
+        --secondary: 120 61% 45%;
+        --secondary-foreground: 0 0% 100%;
+        
+        --muted: 120 61% 40%;
+        --muted-foreground: 0 0% 100%;
+        
+        --accent: 0 0% 100%;
+        --accent-foreground: 120 61% 50%;
+        
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        
+        --border: 0 0% 100%;
+        --input: 0 0% 100%;
+        --ring: 0 0% 100%;
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+    }
+  }
+  
+  @layer base {
+  * {
+    @apply border-border;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+}
+
+h1 {
+}

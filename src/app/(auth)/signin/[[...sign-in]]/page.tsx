@@ -4,6 +4,11 @@ import { useState, useEffect } from 'react';
 import { useSignIn, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { EmailCodeFactor } from "@clerk/types";
+import { 
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot, } from "../../../_components/input-otp";
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -15,7 +20,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (isSignedIn) {
-      router.push("/");
+      router.push("/dashboard ");
     }
   }, [isSignedIn, router]);
 
@@ -61,7 +66,7 @@ export default function SignIn() {
 
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
-        router.push("/admin"); // Replace with your main authenticated route
+        router.push("/dashboard"); // Replace with your main authenticated route
       } else {
         console.log("Verification failed", result);
         alert("Verification failed. Please try again.");
@@ -75,7 +80,7 @@ export default function SignIn() {
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-white text-2xl font-semibold mb-2">
-        {pendingVerification ? "Your OTP Awaits! Enter It Below!" : "Keep Making Change"}
+        {pendingVerification ? "Your OTP Awaits! Enter It Below!" : ""}
       </h2>
       {!pendingVerification ? (
         <form onSubmit={handleSendVerification} className="w-full max-w-md">
@@ -84,34 +89,38 @@ export default function SignIn() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 rounded-full bg-white bg-opacity-20 text-white placeholder-white"
-              placeholder="Login with your email"
+              className="w-full px-4 py-0 rounded-xl border-2 border-white h-16 bg-transparent text-white placeholder-white"
+              placeholder="Email..."
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-white text-lime-500 py-2 rounded-full font-semibold text-xl"
+            className="w-full bg-white text-lime-500 py-2 rounded-md h-16 font-semibold text-xl"
           >
-            Login
+            LOGIN
           </button>
         </form>
       ) : (
         <form onSubmit={handleVerify} className="w-full max-w-md">
           <div className="mb-4">
-            <input
-              type="text"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full px-4 py-2 rounded-full bg-white bg-opacity-20 text-white placeholder-white"
-              placeholder="Enter 6-digit code"
-              required
-              maxLength={6}
-            />
+          <InputOTP maxLength={6} color='white' value={code} onChange={(value) => setCode(value)}>
+            <InputOTPGroup>
+              <InputOTPSlot index={0} />
+              <InputOTPSlot index={1} />
+              <InputOTPSlot index={2} />
+            </InputOTPGroup>
+            <InputOTPSeparator />
+            <InputOTPGroup>
+              <InputOTPSlot index={3} />
+              <InputOTPSlot index={4} />
+              <InputOTPSlot index={5} />
+            </InputOTPGroup>
+          </InputOTP>
           </div>
           <button
             type="submit"
-            className="w-full bg-white text-lime-500 py-2 rounded-full font-semibold text-xl"
+            className="w-full bg-white text-lime-500 py-2 rounded-md h-16 font-semibold text-xl"
           >
             Verify Email
           </button>

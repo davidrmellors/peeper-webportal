@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { db } from "~/server/db";
-import { postSchema, firebasePostSchema, type Post, type FirebasePost } from "~/server/db/schema";
+import { DatabaseUtility } from "~/server/db/databaseClasses/DatabaseUtility";
+import { postSchema, firebasePostSchema, type Post, type FirebasePost } from "~/server/db/interfaces/schema";
 
 export const postRouter = createTRPCRouter({
   hello: publicProcedure
@@ -12,30 +12,30 @@ export const postRouter = createTRPCRouter({
       };
     }),
 
-    create: publicProcedure
+  create: publicProcedure
     .input(firebasePostSchema.pick({ name: true }))
     .mutation(async ({ input }) => {
-      const postsRef = db.ref('posts');
       const newPost: FirebasePost = {
         name: input.name,
         createdAt: new Date().toISOString(),
       };
-      await postsRef.push(newPost);
+      await DatabaseUtility.setData('posts/' + Date.now(), newPost);
     }),
   
   getLatest: publicProcedure.query(async () => {
-    const postsRef = db.ref('posts');
-    const snapshot = await postsRef.orderByChild('createdAt').limitToLast(1).once('value');
-    
-    if (!snapshot.exists()) {
+    const posts = await DatabaseUtility.getAllData<FirebasePost>('posts');
+    if (posts.length === 0) {
       return null;
     }
   
-    const [id, post] = Object.entries(snapshot.val())[0] as [string, FirebasePost];
-    const latestPost: Post = {
-      id,
-      ...post,
+    const latestPost = posts.reduce((latest, current) => 
+      latest.createdAt > current.createdAt ? latest : current
+    );
+
+    const post: Post = {
+      id: latestPost.createdAt, // Using createdAt as id for simplicity
+      ...latestPost,
     };
-    return postSchema.parse(latestPost);
+    return postSchema.parse(post);
   }),
 });

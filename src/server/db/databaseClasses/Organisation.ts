@@ -1,6 +1,6 @@
 // Organisation.ts
 import { DatabaseUtility } from './DatabaseUtility';
-import { OrganisationData } from '../OrganisationData';
+import { OrganisationData } from '../interfaces/OrganisationData';
 import { OrgAddress } from './OrgAddress';
 
 export class Organisation implements OrganisationData {
@@ -40,8 +40,13 @@ export class Organisation implements OrganisationData {
   }
 
   static async getAllOrganisations(): Promise<Organisation[]> {
-    const data = await DatabaseUtility.getAllData<OrganisationData>('organisations');
-    return data.map((org) => new Organisation(org));
+    try {
+      const data = await DatabaseUtility.getAllData<OrganisationData>('organisations');
+      return data.map(org => new Organisation(org));
+    } catch (error) {
+      console.error('Error fetching organisations:', error);
+      return [];
+    }
   }
 
   toJSON(): OrganisationData {

@@ -10,13 +10,13 @@ export class Student implements StudentData {
   email: string;
   profilePhotoURL?: string;
   activeOrgs: string[];
-  locationData: { [sessionLog_id: string]: SessionLog };
+  locationData: Record<string, SessionLog>;
 
   constructor(data: StudentData) {
     this.student_id = data.student_id;
     this.studentNumber = data.studentNumber || "";
     this.email = data.email || "";
-    this.profilePhotoURL = data.profilePhotoURL || undefined; // Initialize with undefined instead of empty string
+    this.profilePhotoURL = data.profilePhotoURL ?? undefined;
     this.activeOrgs = data.activeOrgs || [];
     this.locationData = {};
 
@@ -51,7 +51,7 @@ export class Student implements StudentData {
   }
 
   toJSON(): StudentData {
-    const locationDataJSON: { [sessionLog_id: string]: SessionLogData } = {};
+    const locationDataJSON: Record<string, SessionLogData> = {};
     for (const key in this.locationData) {
       if (Object.prototype.hasOwnProperty.call(this.locationData, key)) {
         const sessionLog = this.locationData[key];

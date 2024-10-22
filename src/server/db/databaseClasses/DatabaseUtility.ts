@@ -52,7 +52,7 @@ export class DatabaseUtility {
       const data: T[] = [];
       if (snapshot.exists()) {
         snapshot.forEach((childSnapshot) => {
-          data.push(childSnapshot.val());
+          data.push(childSnapshot.val() as T);
         });
       }
       return data;

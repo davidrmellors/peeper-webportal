@@ -2,12 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Users, Building2, FileBarChart, User, Settings, Bell, MessageSquare } from 'lucide-react';
 import { usePrefetch } from '~/app/api/hooks/usePrefetch';
 
-const navbar: React.FC = () => {
+const Navbar: React.FC = () => {
   const [activeItem, setActiveItem] = useState('/');
   const pathname = usePathname();
 
@@ -76,4 +75,4 @@ const NavIcon: React.FC<{ href: string; icon: React.ElementType; badge?: string 
   </Link>
 );
 
-export default navbar;
+export default Navbar;

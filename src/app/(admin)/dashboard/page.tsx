@@ -1,19 +1,9 @@
 'use client';
 
 import React from 'react';
-import StudentApprovalsTable from '~/app/_components/StudentApprovalsTable';
 import OrgApprovalsTable from '~/app/_components/OrgApprovalsTable';
 import DashboardSkeleton from "~/app/_components/DashboardSkeleton";
 import { Suspense } from "react";
-
-// Mock data for demonstration
-const mockStudents = [
-  { id: '1', name: 'John Doe', email: 'STXXXXXXXX@lekkaacademy.co.za' },
-  { id: '2', name: 'Jane Doe', email: 'STXXXXXXXX@lekkaacademy.co.za' },
-  { id: '3', name: 'Alice Smith', email: 'STXXXXXXXX@lekkaacademy.co.za' },
-  { id: '4', name: 'Bob Johnson', email: 'STXXXXXXXX@lekkaacademy.co.za' },
-  { id: '5', name: 'Charlie Brown', email: 'STXXXXXXXX@lekkaacademy.co.za' },
-];
 
 const mockOrganizations = [
   { id: '1', name: 'Helping Hands', submittedBy: 'STXXXXXXXX', email: 'support@helpinghands.co.za', phoneNo: '+27 123 456 789' },
@@ -48,15 +38,6 @@ export default function DashboardPage() {
     <Suspense fallback={<DashboardSkeleton />}>
       <div className="space-y-6">
         <h1 className="text-4xl font-bold">DASHBOARD</h1>
-
-        <section className="rounded-lg bg-white p-6 shadow">
-          <h2 className="mb-4 p-2 text-xl font-bold text-black">STUDENT APPROVALS</h2>
-          <StudentApprovalsTable
-            students={mockStudents}
-            onApprove={handleStudentApprove}
-            onDeny={handleStudentDeny}
-          />
-        </section>
         
         <section className="rounded-lg bg-white p-6 shadow">
           <h2 className="mb-4 p-2 text-xl font-bold text-black">ORGANISATION APPROVALS</h2>

@@ -11,7 +11,7 @@ export class Student implements StudentData {
   profilePhotoURL?: string;
   activeOrgs: string[];
   locationData: Record<string, SessionLog>;
-
+  hours: number;
   constructor(data: StudentData) {
     this.student_id = data.student_id;
     this.studentNumber = data.studentNumber || "";
@@ -19,6 +19,11 @@ export class Student implements StudentData {
     this.profilePhotoURL = data.profilePhotoURL ?? undefined;
     this.activeOrgs = data.activeOrgs || [];
     this.locationData = {};
+
+
+    if (this.studentNumber === "") {
+      this.studentNumber = "N/A";
+    }
 
     if (data.locationData) {
       for (const key in data.locationData) {
@@ -28,6 +33,16 @@ export class Student implements StudentData {
         }
       }
     }
+
+    this.hours = Object.values(this.locationData).reduce((acc: number, log) => {
+      const startTime = new Date(log.sessionStartTime);
+      const endTime = new Date(log.sessionEndTime);
+      const diffInMilliseconds = endTime.getTime() - startTime.getTime();
+      const diffInHours = diffInMilliseconds / (1000 * 60 * 60);
+      return Math.round((acc + diffInHours) * 100) / 100;
+    }, 0);
+
+    this.studentNumber = this.studentNumber.toUpperCase();
   }
 
   static async fetchById(student_id: string): Promise<Student | null> {
@@ -68,6 +83,7 @@ export class Student implements StudentData {
       profilePhotoURL: this.profilePhotoURL,
       activeOrgs: this.activeOrgs,
       locationData: locationDataJSON,
+      hours: this.hours,
     };
   }
 }

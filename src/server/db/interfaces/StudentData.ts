@@ -7,4 +7,5 @@ export interface StudentData {
   profilePhotoURL?: string;
   activeOrgs: string[];
   locationData: Record<string, SessionLogData>;
+  hours: number;
 }

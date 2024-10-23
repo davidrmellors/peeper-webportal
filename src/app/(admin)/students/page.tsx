@@ -1,31 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
-import { MoreHorizontal, ChevronDown, Search } from 'lucide-react';
-
-interface Student {
-  id: string;
-  name: string;
-  email: string;
-  hours: string;
-}
-
-const mockStudents: Student[] = [
-  { id: '1', name: 'John Doe', email: 'STXXXXXXXX@lekkaacademy.co.za', hours: '02:00:00' },
-  { id: '2', name: 'Jane Smith', email: 'STXXXXXXXX@lekkaacademy.co.za', hours: '05:30:00' },
-  { id: '3', name: 'Alice Johnson', email: 'STXXXXXXXX@lekkaacademy.co.za', hours: '10:15:00' },
-  { id: '4', name: 'Bob Williams', email: 'STXXXXXXXX@lekkaacademy.co.za', hours: '01:45:00' },
-  { id: '5', name: 'Charlie Brown', email: 'STXXXXXXXX@lekkaacademy.co.za', hours: '08:00:00' },
-  { id: '6', name: 'Diana Prince', email: 'STXXXXXXXX@lekkaacademy.co.za', hours: '03:20:00' },
-  { id: '7', name: 'Ethan Hunt', email: 'STXXXXXXXX@lekkaacademy.co.za', hours: '06:45:00' },
-  { id: '8', name: 'Fiona Apple', email: 'STXXXXXXXX@lekkaacademy.co.za', hours: '00:30:00' },
-  { id: '9', name: 'George Lucas', email: 'STXXXXXXXX@lekkaacademy.co.za', hours: '12:00:00' },
-  { id: '10', name: 'Hannah Montana', email: 'STXXXXXXXX@lekkaacademy.co.za', hours: '04:15:00' }
-];
+import React, { useEffect, useState } from 'react';
+import { MoreHorizontal, Search } from 'lucide-react';
+import { api } from "~/trpc/react";
+import { Student } from "~/server/db/databaseClasses/Student";
 
 const StudentsPage: React.FC = () => {
   const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectAll, setSelectAll] = useState(false);
+
+  const { data: students, isLoading } = api.student.getAllStudents.useQuery();
 
   const handleSelectStudent = (studentId: string) => {
     setSelectedStudents(prev => 
@@ -35,16 +20,27 @@ const StudentsPage: React.FC = () => {
     );
   };
 
-  const calculateStatus = (hours: string): 'COMPLETE' | 'INCOMPLETE' => {
-    const [h = 0, m = 0] = hours.split(':').map(Number);
-    const totalHours = h + m / 60;
-    return totalHours >= 4 ? 'COMPLETE' : 'INCOMPLETE';
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedStudents([]);
+    } else {
+      setSelectedStudents(filteredStudents.map(student => student.student_id));
+    }
+    setSelectAll(!selectAll);
   };
 
-  const filteredStudents = mockStudents.filter(student => 
-    student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  const calculateStatus = (hours: number): 'COMPLETE' | 'INCOMPLETE' => {
+    return hours >= 4 ? 'COMPLETE' : 'INCOMPLETE';
+  };
+
+  const filteredStudents = students?.filter(student => 
+    student.studentNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
     student.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  ) || [];
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="space-y-4">
@@ -70,8 +66,15 @@ const StudentsPage: React.FC = () => {
         <table className="w-full">
           <thead className="bg-lime-500 text-white">
             <tr>
-              <th className="p-2"></th>
-              <th className="p-2 text-left">EMAIL</th>
+            <th className="p-2 w-0">
+                    <input
+                      type="checkbox"
+                      checked={selectAll}
+                      onChange={handleSelectAll}
+                      className="rounded accent-lime-500 w-4 h-4"
+                    />
+                  </th>
+              <th className="p-2 text-left">STUDENT NUMBER</th>
               <th className="p-2 text-left">HOURS</th>
               <th className="p-2 text-left">STATUS</th>
               <th className="p-2"></th>
@@ -81,16 +84,16 @@ const StudentsPage: React.FC = () => {
             {filteredStudents.map((student) => {
               const status = calculateStatus(student.hours);
               return (
-                <tr key={student.id} className={`border-b ${selectedStudents.includes(student.id) ? 'bg-lime-100' : ''}`}>
+                <tr key={student.student_id} className={`border-b ${selectedStudents.includes(student.student_id) ? 'bg-lime-100' : ''}`}>
                   <td className="p-2">
                     <input
                       type="checkbox"
-                      checked={selectedStudents.includes(student.id)}
-                      onChange={() => handleSelectStudent(student.id)}
+                      checked={selectedStudents.includes(student.student_id)}
+                      onChange={() => handleSelectStudent(student.student_id)}
                       className="rounded"
                     />
                   </td>
-                  <td className="p-2">{student.email}</td>
+                  <td className="p-2">{student.studentNumber}</td>
                   <td className="p-2">{student.hours}</td>
                   <td className="p-2">
                     <span className={`px-2 py-1 rounded ${status === 'COMPLETE' ? 'bg-lime-500 text-white' : 'bg-gray-200'}`}>

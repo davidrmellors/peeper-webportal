@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className="flex flex-col w-64 h-screen bg-white border-r border-gray-200">
       <div className="p-4 border-b border-gray-200">
-        <h1 className="text-xl font-bold mt-2">LEKKA ACADEMY</h1>
+        <h1 className="text-xl font-bold mt-2">PEEPER</h1>
         <p className="text-sm text-gray-600">Community Service Tracking</p>
       </div>
       

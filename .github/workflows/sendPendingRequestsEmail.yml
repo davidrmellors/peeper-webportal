@@ -22,5 +22,5 @@ jobs:
 
     - name: Run script to send email
       env:
-        SENDGRID_API_KEY: ${{ secrets.SENGRID_API_KEY}}
+        SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY}}
       run: node scripts/sendPendingRequestsEmail.js

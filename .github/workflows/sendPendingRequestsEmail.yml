@@ -2,7 +2,7 @@ name: Send Pending Requests Email
 
 on:
   schedule:
-    - cron: '0 8 * * *' #24 hour repeat
+    - cron: '0 6 * * *' #24 hour repeat
 
 jobs:
   send-email:

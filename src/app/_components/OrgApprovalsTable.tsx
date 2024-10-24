@@ -2,14 +2,6 @@ import React from 'react';
 import { api } from "~/trpc/react";
 import OrgRequestSkeleton from './OrgRequestSkeleton';
 
-type Organization = {
-  id: string;
-  name: string;
-  submittedBy: string;
-  email?: string;
-  phoneNo?: string;
-};
-
 const OrgApprovalsTable: React.FC = () => {
   const { data: organizations, isLoading, error, refetch } = api.organisation.getPendingRequests.useQuery();
   console.log('Organizations data:', organizations);
@@ -17,6 +9,12 @@ const OrgApprovalsTable: React.FC = () => {
   console.log('Error:', error);
   const approveOrgRequest = api.organisation.approveOrgRequest.useMutation();
   const denyOrgRequest = api.organisation.denyOrgRequest.useMutation();
+
+  const { data: students } = api.student.getAllStudents.useQuery();
+  const getStudentNumber = (studentId: string) => {
+    const student = students?.find(s => s.student_id === studentId);
+    return student?.studentNumber || 'N/A';
+  };
 
   const handleOrgApprove = async (orgId: string) => {
     try {
@@ -57,7 +55,7 @@ const OrgApprovalsTable: React.FC = () => {
             {organizations.map((org) => (
               <tr key={org.request_id} className="border-b border-gray-200">
                 <td className="py-3 px-4">{org.name}</td>
-                <td className="py-3 px-4">{org.studentID}</td>
+                <td className="py-3 px-4">{getStudentNumber(org.studentID)}</td>
                 {/* <td className="py-3 px-4">{org.email}</td>
                 <td className="py-3 px-4">{org.phoneNo}</td> */}
                 <td className="py-3 px-4">

@@ -3,6 +3,7 @@ import { DatabaseUtility } from './DatabaseUtility';
 import { OrgRequestData } from '../interfaces/OrgRequestData';
 import { OrgAddress } from './OrgAddress';
 import { ApprovalStatus } from '../interfaces/enums';
+import { Student } from './Student';
 
 export class OrgRequest implements OrgRequestData {
   request_id: string;
@@ -24,6 +25,8 @@ export class OrgRequest implements OrgRequestData {
     this.phoneNo = data.phoneNo;
     this.approvalStatus = data.approvalStatus;
   }
+
+  
 
   static async fetchById(request_id: string): Promise<OrgRequest | null> {
     const data = await DatabaseUtility.getData<OrgRequestData>(`orgRequests/${request_id}`);

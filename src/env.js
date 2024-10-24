@@ -9,6 +9,7 @@ export const env = createEnv({
     CLERK_SECRET_KEY: z.string(),
     FIREBASE_DATABASE_URL: z.string(),
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+    SENDGRID_API_KEY: z.string(),
   },
   client: {
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
@@ -21,6 +22,7 @@ export const env = createEnv({
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     NODE_ENV: process.env.NODE_ENV,
     FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL,
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   emptyStringAsUndefined: true,

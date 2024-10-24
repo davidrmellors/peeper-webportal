@@ -30,6 +30,22 @@ export class OrgRequest implements OrgRequestData {
     return data ? new OrgRequest(data) : null;
   }
 
+  static async fetchByApprovalStatus(approvalStatus: ApprovalStatus): Promise<OrgRequest[] | null> {
+    try {
+      const allRequests = await DatabaseUtility.getData<Record<string, OrgRequestData>>('orgRequests');
+      if (!allRequests) return null;
+
+      const filteredRequests = Object.entries(allRequests)
+        .filter(([_, request]) => request.approvalStatus === approvalStatus)
+        .map(([id, request]) => new OrgRequest({ ...request, request_id: id }));
+
+      return filteredRequests.length > 0 ? filteredRequests : null;
+    } catch (error) {
+      console.error('Error fetching org requests:', error);
+      return null;
+    }
+  }
+
   async save(): Promise<void> {
     await DatabaseUtility.setData(`orgRequests/${this.request_id}`, this.toJSON());
   }

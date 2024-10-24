@@ -18,10 +18,6 @@ const SettingsPage: React.FC = () => {
     router.push('/sign-in');
   };
 
-  const handleDataDeletion = () => {
-    // Implement data deletion request logic here
-    console.log('Data deletion requested');
-  };
 
   return (
     <div className="space-y-6">
@@ -57,13 +53,6 @@ const SettingsPage: React.FC = () => {
           ))}
         </div>
       </section>
-
-      <button
-        onClick={handleDataDeletion}
-        className="w-full py-3 bg-lime-500 text-white rounded-lg font-bold"
-      >
-        REQUEST DATA DELETION
-      </button>
 
       <button
         onClick={handleLogout}

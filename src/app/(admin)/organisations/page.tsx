@@ -2,10 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Search, MoreHorizontal, ChevronDown } from 'lucide-react';
-import { Organisation } from '~/server/db/databaseClasses/Organisation';
 import { OrgAddressData } from '~/server/db/interfaces/OrgAddressData';
 import OrganisationsSkeleton from '~/app/_components/OrganistationsSkeleton';
-import { Suspense } from 'react';
 import { api } from '~/trpc/react';
 
 export interface OrganisationData {

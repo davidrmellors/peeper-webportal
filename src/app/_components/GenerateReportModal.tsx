@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Student } from '../../server/db/databaseClasses/Student';
+import { api } from '~/trpc/react';
 
 interface GenerateReportModalProps {
   isOpen: boolean;
@@ -15,16 +16,42 @@ const GenerateReportModal: React.FC<GenerateReportModalProps> = ({
   onGenerate,
   selectedStudents,
 }) => {
-    
+  const generateExcel = api.student.generateExcelReport.useMutation();
   const [fileType, setFileType] = useState<'xlsx' | 'pdf'>('xlsx');
 
   if (!isOpen) return null;
 
+  const handleDownloadExcel = async() =>{
+    if(selectedStudents.length === 0) return;
+    try {
+      const studentIds = selectedStudents.map(student => student.student_id);
+      const base64Data = await generateExcel.mutateAsync(studentIds);
+
+      //Convert base64 to blob
+      const binaryString = window.atob(base64Data);
+      const bytes = new Uint8Array(binaryString.length);
+      for(let i = 0; i< binaryString.length; i++){
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      const blob = new Blob([bytes], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+      
+      //Create a download link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'student-hours.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch(error: unknown) {
+      console.error('Error downloading Excel:', error instanceof Error ? error.message : 'Unknown error');
+    }
+  }
+
   const handleSubmit = () => {
-    console.log('Generating report:', {
-        selectedStudents: selectedStudents,
-        fileType
-      });
+    if(fileType === 'xlsx') void handleDownloadExcel();
+    //else PDFShareFunctionality
     onGenerate(selectedStudents, fileType);
     onClose();
   };

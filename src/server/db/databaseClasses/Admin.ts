@@ -21,6 +21,11 @@ export class Admin implements AdminData {
     return data ? new Admin(data) : null;
   }
 
+  static async fetchAdminsByType(adminType: AdminType): Promise<Admin[] | null> {
+    const data = await DatabaseUtility.getData<AdminData[]>(`admins?adminType=${adminType}`);
+    return data ? data.map(adminData => new Admin(adminData)) : null;
+  }
+
   async save(): Promise<void> {
     await DatabaseUtility.setData(`admins/${this.admin_id}`, this.toJSON());
   }

@@ -12,6 +12,7 @@ const StudentsPage: React.FC = () => {
   const [selectedStudents, setSelectedStudents] = useState<Student[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectAll, setSelectAll] = useState(false);
+  const generateExcel = api.student.generateExcelReport.useMutation();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
@@ -39,6 +40,33 @@ const StudentsPage: React.FC = () => {
     }
     setSelectAll(!selectAll);
   };
+
+  const handleDownloadExcel = async() =>{
+    if(selectedStudents.length === 0) return;
+    try{
+      const base64Data = await generateExcel.mutateAsync(selectedStudents);
+
+      //Convert base64 to blob
+      const binaryString = window.atob(base64Data);
+      const bytes = new Uint8Array(binaryString.length);
+      for(let i = 0; i< binaryString.length; i++){
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      const blob = new Blob([bytes], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+      
+      //Create a download link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'student-hours.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch(error){
+      console.error('Error downloading Excel:', error);
+    }
+  }
 
   const calculateStatus = (hours: number): 'COMPLETE' | 'INCOMPLETE' => {
     return hours >= 4 ? 'COMPLETE' : 'INCOMPLETE';

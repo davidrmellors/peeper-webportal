@@ -12,6 +12,7 @@ const StudentsPage: React.FC = () => {
   const [selectedStudents, setSelectedStudents] = useState<Student[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectAll, setSelectAll] = useState(false);
+  
   const [modalOpen, setModalOpen] = useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
@@ -40,6 +41,8 @@ const StudentsPage: React.FC = () => {
     setSelectAll(!selectAll);
   };
 
+  
+
   const calculateStatus = (hours: number): 'COMPLETE' | 'INCOMPLETE' => {
     return hours >= 4 ? 'COMPLETE' : 'INCOMPLETE';
   };
@@ -47,7 +50,7 @@ const StudentsPage: React.FC = () => {
   const filteredStudents = students?.filter(student => 
     student.studentNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
     student.email.toLowerCase().includes(searchTerm.toLowerCase())
-  ) || [];
+  ) ?? [];
 
   const handleMoreClick = (e: React.MouseEvent) => {
     console.log(selectedStudents);

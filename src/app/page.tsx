@@ -1,10 +1,9 @@
 'use client';
 
 import Link from "next/link";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { useRouter } from "next/navigation";
 import PageSkeleton from "~/app/_components/PageSkeleton";
-import { api } from "~/trpc/react";
 import { useAuth } from "@clerk/nextjs";
 
 export default function Home() {

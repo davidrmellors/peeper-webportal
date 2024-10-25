@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, Building2, FileBarChart, User, Settings, Bell, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, Users, Building2, User, Settings, Bell, MessageSquare } from 'lucide-react';
 import { usePrefetch } from '~/app/api/hooks/usePrefetch';
 
 const Navbar: React.FC = () => {
@@ -26,7 +26,6 @@ const Navbar: React.FC = () => {
           <NavItem href="/dashboard" label="DASHBOARD" icon={LayoutDashboard} active={activeItem === '/dashboard'} />
           <NavItem href="/students" label="STUDENTS" icon={Users} active={activeItem === '/students'} />
           <NavItem href="/organisations" label="ORGANISATIONS" icon={Building2} active={activeItem === '/organisations'} />
-          <NavItem href="/reports" label="REPORTS" icon={FileBarChart} active={activeItem === '/reports'} />
         </ul>
       </div>
       

@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
-import { MoreHorizontal, Search } from 'lucide-react';
+import React, { useCallback, useState, useMemo } from 'react';
+import { Search } from 'lucide-react';
 import { api } from "~/trpc/react";
 import StudentsSkeleton from '~/app/_components/StudentsSkeleton';
 import StudentActionModal from '~/app/_components/StudentActionModal';
 import GenerateReportModal from '~/app/_components/GenerateReportModal';
-import { Student } from '~/server/db/databaseClasses/Student';
 
 const StudentsPage: React.FC = () => {
   const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string>>(new Set());
@@ -18,10 +17,12 @@ const StudentsPage: React.FC = () => {
 
   const { data: students, isLoading } = api.student.getAllStudents.useQuery();
 
-  const filteredStudents = students?.filter(student => 
-    student.studentNumber.toLowerCase().includes(searchTerm.toLowerCase()) ??
-    student.email.toLowerCase().includes(searchTerm.toLowerCase())
-  ) ?? [];
+  const filteredStudents = useMemo(() => {
+    return students?.filter(student => 
+      student.studentNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.email.toLowerCase().includes(searchTerm.toLowerCase())
+    ) ?? [];
+  }, [students, searchTerm]);
 
   const handleSelectStudent = useCallback((studentId: string) => {
     setSelectedStudentIds(prev => {
@@ -123,7 +124,6 @@ const StudentsPage: React.FC = () => {
                     <input
                       type="checkbox"
                       checked={isSelected}
-                      onChange={() => {}}
                       onClick={(e) => e.stopPropagation()}
                       className="rounded"
                     />

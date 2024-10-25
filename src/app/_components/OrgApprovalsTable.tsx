@@ -12,28 +12,29 @@ const OrgApprovalsTable: React.FC = () => {
   const [error, setError] = useState<Error | null>(null);
   const approveOrgRequest = api.orgRequest.approveOrgRequest.useMutation();
   const denyOrgRequest = api.orgRequest.denyOrgRequest.useMutation();
-  const [selectedRequest, setSelectedRequest] = useState<OrgRequestData | null>(null); // Specify type
+  const [selectedRequest, setSelectedRequest] = useState<OrgRequestData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const orgRequestsRef = ref(database, 'orgRequests'); // Reference to your orgRequests path
+    const orgRequestsRef = ref(database, 'orgRequests');
 
     const unsubscribe = onValue(orgRequestsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const requests = Object.values(data).filter((req: any) => req.approvalStatus === 0); // Assuming 0 is Pending
-        setOrgRequests(requests as never[]);
+        // Use type assertion to specify the expected type
+        const requests = Object.values(data) as OrgRequestData[]; // Assert the type here
+        const pendingRequests = requests.filter((req) => req.approvalStatus === 0); // Assuming 0 is Pending
+        setOrgRequests(pendingRequests);
       } else {
         setOrgRequests([]);
       }
       setIsLoading(false);
     }, (error) => {
       console.error("Error fetching org requests:", error);
-      setError(error); // No longer causes a type error
+      setError(error);
       setIsLoading(false);
     });
 
-    // Cleanup listener on unmount
     return () => unsubscribe();
   }, []);
 
@@ -46,7 +47,6 @@ const OrgApprovalsTable: React.FC = () => {
     if (selectedRequest) {
       await approveOrgRequest.mutateAsync({ requestId: selectedRequest.request_id });
       setIsModalOpen(false);
-      // Optionally refresh the requests
     }
   };
 
@@ -54,7 +54,6 @@ const OrgApprovalsTable: React.FC = () => {
     if (selectedRequest) {
       await denyOrgRequest.mutateAsync({ requestId: selectedRequest.request_id });
       setIsModalOpen(false);
-      // Optionally refresh the requests
     }
   };
 
@@ -62,23 +61,6 @@ const OrgApprovalsTable: React.FC = () => {
   const getStudentNumber = (studentId: string) => {
     const student = students?.find(s => s.student_id === studentId);
     return student?.studentNumber ?? 'N/A';
-  };
-
-  const handleOrgApprove = async (orgId: string) => {
-    try {
-      await approveOrgRequest.mutateAsync({ requestId: orgId });
-    } catch (error) {
-      console.error("Error approving organization:", error);
-    }
-  };
-
-
-  const handleOrgDeny = async (orgId: string) => {
-    try {
-      await denyOrgRequest.mutateAsync({ requestId: orgId });
-    } catch (error) {
-      console.error("Error denying organization:", error);
-    }
   };
 
   if (error) return <div>Error loading organization requests: {error.message}</div>;
@@ -103,20 +85,20 @@ const OrgApprovalsTable: React.FC = () => {
                     <td className="py-3 px-4">{getStudentNumber(orgReq.studentID)}</td>
                     <td className="py-3 px-4">
                       <div className="flex justify-end space-x-2">
-                      <button
-                        onClick={() => handleViewRequest(orgReq)}
-                        className="bg-green-500 text-white px-4 py-2 rounded font-bold"
-                      >
-                        VIEW
-                      </button>
                         <button
-                          onClick={() => handleOrgDeny(orgReq.request_id)}
+                          onClick={() => handleViewRequest(orgReq)}
+                          className="bg-green-500 text-white px-4 py-2 rounded font-bold"
+                        >
+                          VIEW
+                        </button>
+                        <button
+                          onClick={() => handleDeny()}
                           className="bg-red-500 text-white px-4 py-2 rounded font-bold"
                         >
                           DENY
                         </button>
                         <button
-                          onClick={() => handleOrgApprove(orgReq.request_id)}
+                          onClick={() => handleApprove()}
                           className="bg-blue-500 text-white px-4 py-2 rounded font-bold"
                         >
                           APPROVE

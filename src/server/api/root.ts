@@ -2,6 +2,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { organisationRouter } from "~/server/api/routers/organisation";
 import { studentRouter } from "~/server/api/routers/student";
 import { postRouter } from "~/server/api/routers/post";
+import { orgRequestsRouter } from "./routers/organisationRequests";
 
 /**
  * This is the primary router for your server.
@@ -11,6 +12,7 @@ import { postRouter } from "~/server/api/routers/post";
 export const appRouter = createTRPCRouter({
   organisation: organisationRouter,
   student: studentRouter,
+  orgRequest: orgRequestsRouter,
   post: postRouter,
 });
 

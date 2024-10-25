@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { MoreHorizontal, Search } from 'lucide-react';
 import { api } from "~/trpc/react";
 import StudentsSkeleton from '~/app/_components/StudentsSkeleton';
@@ -9,66 +9,52 @@ import GenerateReportModal from '~/app/_components/GenerateReportModal';
 import { Student } from '~/server/db/databaseClasses/Student';
 
 const StudentsPage: React.FC = () => {
-  const [selectedStudents, setSelectedStudents] = useState<Student[]>([]);
+  const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
   const [selectAll, setSelectAll] = useState(false);
   
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-  const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [reportModalOpen, setReportModalOpen] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
 
   const { data: students, isLoading } = api.student.getAllStudents.useQuery();
 
-  const handleSelectStudent = (studentId: string) => {
-    console.log(studentId);
-    setIsChecked(!isChecked);
-    setSelectedStudents(prev => 
-      prev.some(student => student.student_id === studentId) 
-        ? prev.filter(student => student.student_id !== studentId)
-        : [...prev, students?.find(student => student.student_id === studentId)!]
-    );
-  };
+  const filteredStudents = students?.filter(student => 
+    student.studentNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    student.email.toLowerCase().includes(searchTerm.toLowerCase())
+  ) || [];
 
+  const handleSelectStudent = useCallback((studentId: string) => {
+    setSelectedStudentIds(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(studentId)) {
+        newSet.delete(studentId);
+      } else {
+        newSet.add(studentId);
+      }
+      return newSet;
+    });
+  }, []);
 
-  const handleSelectAll = () => {
+  const handleSelectAll = useCallback(() => {
     if (selectAll) {
-      setSelectedStudents([]);
+      setSelectedStudentIds(new Set());
     } else {
-      setSelectedStudents(filteredStudents);
+      setSelectedStudentIds(new Set(filteredStudents.map(s => s.student_id)));
     }
     setSelectAll(!selectAll);
-  };
-
-  
+  }, [selectAll, filteredStudents]);
 
   const calculateStatus = (hours: number): 'COMPLETE' | 'INCOMPLETE' => {
     return hours >= 4 ? 'COMPLETE' : 'INCOMPLETE';
   };
 
-  const filteredStudents = students?.filter(student => 
-    student.studentNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.email.toLowerCase().includes(searchTerm.toLowerCase())
-  ) ?? [];
-
-  const handleMoreClick = (e: React.MouseEvent) => {
-    console.log(selectedStudents);
-    e.stopPropagation();
-    const rect = e.currentTarget.getBoundingClientRect();
-    setModalPosition({
-      top: rect.bottom + window.scrollY,
-      left: rect.left + window.scrollX - 200, // Adjust this value to position the modal
-    });
-
+  const handleMoreClick = () => {
+    if (selectedStudentIds.size === 0) return;
     setModalOpen(true);
   };
 
   const handleEdit = () => {
-    if (selectedStudentId) {
-      // Implement edit functionality
-      console.log('Edit student:', selectedStudentId);
-    }
+    // Implement edit functionality
     setModalOpen(false);
   };
 
@@ -82,10 +68,7 @@ const StudentsPage: React.FC = () => {
   };
 
   const handleDelete = () => {
-    if (selectedStudentId) {
-      // Implement delete functionality
-      console.log('Delete student:', selectedStudentId);
-    }
+    // Implement delete functionality
     setModalOpen(false);
   };
 
@@ -105,7 +88,7 @@ const StudentsPage: React.FC = () => {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
         <button onClick={handleMoreClick} className="bg-lime-500 text-white px-4 py-2 rounded-lg flex items-center">
-          MANAGE <span className="ml-2 bg-white text-lime-500 rounded-full w-5 h-5 flex items-center justify-center">{selectedStudents.length}</span>
+          MANAGE <span className="ml-2 bg-white text-lime-500 rounded-full w-5 h-5 flex items-center justify-center">{selectedStudentIds.size}</span>
         </button>
       </div>
     {isLoading ? <StudentsSkeleton /> : (
@@ -113,14 +96,14 @@ const StudentsPage: React.FC = () => {
         <table className="w-full">
           <thead className="bg-lime-500 text-white">
             <tr>
-            <th className="p-2 w-0">
-                    <input
-                      type="checkbox"
-                      checked={selectAll}
-                      onChange={handleSelectAll}
-                      className="rounded accent-lime-500 w-4 h-4"
-                    />
-                  </th>
+              <th className="p-2 w-0">
+                <input
+                  type="checkbox"
+                  checked={selectAll}
+                  onChange={handleSelectAll}
+                  className="rounded accent-lime-500 w-4 h-4"
+                />
+              </th>
               <th className="p-2 text-left">STUDENT NUMBER</th>
               <th className="p-2 text-left">HOURS</th>
               <th className="p-2 text-left">STATUS</th>
@@ -129,13 +112,19 @@ const StudentsPage: React.FC = () => {
           <tbody>
             {filteredStudents.map((student) => {
               const status = calculateStatus(student.hours);
+              const isSelected = selectedStudentIds.has(student.student_id);
               return (
-                <tr key={student.student_id} className={`border-b ${selectedStudents.some(s => s.student_id === student.student_id) ? 'bg-lime-100' : ''}`}>
+                <tr 
+                  key={student.student_id} 
+                  className={`border-b cursor-pointer hover:bg-lime-50 transition-colors duration-150 ease-in-out ${isSelected ? 'bg-lime-100' : ''}`}
+                  onClick={() => handleSelectStudent(student.student_id)}
+                >
                   <td className="p-2">
                     <input
                       type="checkbox"
-                      checked={selectedStudents.some(s => s.student_id === student.student_id)}
-                      onChange={() => handleSelectStudent(student.student_id)}
+                      checked={isSelected}
+                      onChange={() => {}}
+                      onClick={(e) => e.stopPropagation()}
                       className="rounded"
                     />
                   </td>
@@ -162,7 +151,7 @@ const StudentsPage: React.FC = () => {
       />
       <GenerateReportModal
         isOpen={reportModalOpen}
-        selectedStudents={selectedStudents}
+        selectedStudents={filteredStudents.filter(s => selectedStudentIds.has(s.student_id))}
         onClose={() => setReportModalOpen(false)}
         onGenerate={handleGenerateReportSubmit}
       />

@@ -9,10 +9,10 @@ const StudentsSkeleton: React.FC = () => {
         <table className="w-full">
           <thead className="bg-lime-500 text-white">
             <tr>
-              <th className="p-2 w-0"></th>
-              <th className="p-2 text-left w-1/3">STUDENT NUMBER</th>
-              <th className="p-2 text-left w-1/4">HOURS</th>
-              <th className="p-2 text-left w-1/5">STATUS</th>
+              <th className="p-2 w-0"><Skeleton className="h-5 w-5 rounded" /></th>
+              <th className="p-2 text-left">STUDENT NUMBER</th>
+              <th className="p-2 text-left">HOURS</th>
+              <th className="p-2 text-left">STATUS</th>
               <th className="p-2 w-10"></th>
             </tr>
           </thead>
@@ -24,7 +24,6 @@ const StudentsSkeleton: React.FC = () => {
                 <td className="p-2"><Skeleton className="h-6 w-full" /></td>
                 <td className="p-2"><Skeleton className="h-6 w-full" /></td>
                 <td className="p-2"><Skeleton className="h-8 w-20" /></td>
-                <td className="p-2"><Skeleton className="h-6 w-6" /></td>
               </tr>
             ))}
           </tbody>

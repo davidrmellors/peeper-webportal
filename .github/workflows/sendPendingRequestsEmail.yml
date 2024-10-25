@@ -1,0 +1,26 @@
+name: Send Pending Requests Email
+
+on:
+  schedule:
+    - cron: '0 6 * * *' #24 hour repeat
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with: 
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run script to send email
+      env:
+        SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY}}
+      run: node scripts/sendPendingRequestsEmail.js

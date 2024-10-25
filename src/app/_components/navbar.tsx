@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, Building2, User, Settings, Bell, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, Users, Building2, User, Settings } from 'lucide-react';
 import { usePrefetch } from '~/app/api/hooks/usePrefetch';
 
 const Navbar: React.FC = () => {
@@ -33,8 +33,6 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between">
           <NavIcon href="/profile" icon={User} />
           <NavIcon href="/settings" icon={Settings} />
-          <NavIcon href="/notifications" icon={Bell} badge="1" />
-          <NavIcon href="/messages" icon={MessageSquare} />
         </div>
       </div>
     </nav>

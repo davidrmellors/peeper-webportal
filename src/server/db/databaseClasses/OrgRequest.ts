@@ -1,9 +1,8 @@
 // OrgRequest.ts
 import { DatabaseUtility } from './DatabaseUtility';
-import { OrgRequestData } from '../interfaces/OrgRequestData';
+import type { OrgRequestData } from '../interfaces/OrgRequestData';
 import { OrgAddress } from './OrgAddress';
-import { ApprovalStatus } from '../interfaces/enums';
-import { Student } from './Student';
+import type { ApprovalStatus } from '../interfaces/enums';
 
 export class OrgRequest implements OrgRequestData {
   request_id: string;

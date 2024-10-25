@@ -19,9 +19,9 @@ const StudentsPage: React.FC = () => {
   const { data: students, isLoading } = api.student.getAllStudents.useQuery();
 
   const filteredStudents = students?.filter(student => 
-    student.studentNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    student.studentNumber.toLowerCase().includes(searchTerm.toLowerCase()) ??
     student.email.toLowerCase().includes(searchTerm.toLowerCase())
-  ) || [];
+  ) ?? [];
 
   const handleSelectStudent = useCallback((studentId: string) => {
     setSelectedStudentIds(prev => {

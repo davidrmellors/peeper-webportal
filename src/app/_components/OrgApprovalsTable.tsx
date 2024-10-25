@@ -3,16 +3,16 @@ import { api } from "~/trpc/react";
 import OrgRequestSkeleton from './OrgRequestSkeleton';
 import { database } from '~/server/db/firebaseConfig';
 import { ref, onValue } from 'firebase/database';
-import { OrgRequestData } from '~/server/db/interfaces/OrgRequestData';
+import type { OrgRequestData } from '~/server/db/interfaces/OrgRequestData'; // Use import type
 import OrgRequestModal from './OrgRequestModal';
 
 const OrgApprovalsTable: React.FC = () => {
   const [orgRequests, setOrgRequests] = useState<OrgRequestData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null); // Updated state type
+  const [error, setError] = useState<Error | null>(null);
   const approveOrgRequest = api.orgRequest.approveOrgRequest.useMutation();
   const denyOrgRequest = api.orgRequest.denyOrgRequest.useMutation();
-  const [selectedRequest, setSelectedRequest] = useState<OrgRequestData>();
+  const [selectedRequest, setSelectedRequest] = useState<OrgRequestData | null>(null); // Specify type
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const OrgApprovalsTable: React.FC = () => {
   const { data: students } = api.student.getAllStudents.useQuery();
   const getStudentNumber = (studentId: string) => {
     const student = students?.find(s => s.student_id === studentId);
-    return student?.studentNumber || 'N/A';
+    return student?.studentNumber ?? 'N/A';
   };
 
   const handleOrgApprove = async (orgId: string) => {

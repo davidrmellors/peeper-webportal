@@ -25,8 +25,6 @@ export class OrgRequest implements OrgRequestData {
     this.approvalStatus = data.approvalStatus;
   }
 
-  
-
   static async fetchById(request_id: string): Promise<OrgRequest | null> {
     const data = await DatabaseUtility.getData<OrgRequestData>(`orgRequests/${request_id}`);
     return data ? new OrgRequest(data) : null;
@@ -38,7 +36,7 @@ export class OrgRequest implements OrgRequestData {
       if (!allRequests) return null;
 
       const filteredRequests = Object.entries(allRequests)
-        .filter(([_, request]) => request.approvalStatus === approvalStatus)
+        .filter(([_, request]) => request.approvalStatus as ApprovalStatus === approvalStatus)
         .map(([id, request]) => new OrgRequest({ ...request, request_id: id }));
 
       return filteredRequests.length > 0 ? filteredRequests : null;

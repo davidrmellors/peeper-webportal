@@ -4,7 +4,7 @@ import OrgRequestSkeleton from './OrgRequestSkeleton';
 import { database } from '~/server/db/firebaseConfig';
 import { ref, onValue } from 'firebase/database';
 import { OrgRequestData } from '~/server/db/interfaces/OrgRequestData'; // Use import type
-import OrgRequestModal from './OrgRequestModal';
+import OrgReqStatusModal from './OrgReqStatusModal';
 
 const OrgApprovalsTable: React.FC = () => {
   const [orgRequests, setOrgRequests] = useState<OrgRequestData[]>([]);
@@ -12,8 +12,8 @@ const OrgApprovalsTable: React.FC = () => {
   const [error, setError] = useState<Error | null>(null);
   const approveOrgRequest = api.orgRequest.approveOrgRequest.useMutation();
   const denyOrgRequest = api.orgRequest.denyOrgRequest.useMutation();
-  const [selectedRequest, setSelectedRequest] = useState<OrgRequestData | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [orgRequestApproved, setApprovalStatus ] = useState(false);
 
   useEffect(() => {
     const orgRequestsRef = ref(database, 'orgRequests');
@@ -37,22 +37,35 @@ const OrgApprovalsTable: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleViewRequest = (orgReq: OrgRequestData) => {
-    setSelectedRequest(orgReq);
-    setIsModalOpen(true);
-  };
-
-  const handleApprove = async () => {
-    if (selectedRequest) {
-      await approveOrgRequest.mutateAsync({ requestId: selectedRequest.request_id });
-      setIsModalOpen(false);
+  const handleApprove = async (orgReqId: string) => {
+    console.log("Approve clicked");
+    if (orgReqId) {
+        approveOrgRequest.mutate({ requestId: orgReqId }, {
+          onSuccess: () => {
+            setModalOpen(true);
+            setApprovalStatus(true);
+          },
+          onError: (error) => {
+            console.log(error);
+          },
+        });
+        
     }
   };
 
-  const handleDeny = async () => {
-    if (selectedRequest) {
-      await denyOrgRequest.mutateAsync({ requestId: selectedRequest.request_id });
-      setIsModalOpen(false);
+  const handleDeny = async (orgReqId: string) => {
+    console.log("Deny Clicked");
+    if (orgReqId) {
+      denyOrgRequest.mutate({ requestId: orgReqId }, {
+        onSuccess: () => {
+          setModalOpen(true);
+          setApprovalStatus(false);
+        },
+        onError: (error) => {
+          console.log(error);
+        }
+      }
+      );
     }
   };
 
@@ -73,6 +86,9 @@ const OrgApprovalsTable: React.FC = () => {
               <thead className="bg-lime-500 text-white">
                 <tr>
                   <th className="py-3 px-4 text-left">NAME ↓</th>
+                  <th className="py-3 px-4 text-left">EMAIL</th>
+                  <th className="py-3 px-4 text-left">Phone Number</th>
+                  <th className="py-3 px-4 text-left">Address</th>
                   <th className="py-3 px-4 text-left">SUBMITTED BY</th>
                   <th className="py-3 px-4 text-center">STATUS</th>
                 </tr>
@@ -80,24 +96,21 @@ const OrgApprovalsTable: React.FC = () => {
               <tbody>
                 {orgRequests.map((orgReq) => (
                   <tr key={orgReq.request_id} className="border-b border-gray-200">
-                    <td className="py-3 px-4">{orgReq.name}</td>
-                    <td className="py-3 px-4">{getStudentNumber(orgReq.studentID)}</td>
+                    <td className="py-3 px-4">{orgReq.name ? orgReq.name : "N/A"}</td>
+                    <td className="py-3 px-4">{orgReq.email ? orgReq.email : "N/A"}</td>
+                    <td className="py-3 px-4">{orgReq.phoneNo ? orgReq.phoneNo : "N/A"}</td>
+                    <td className="py-3 px-4">{`${orgReq.orgAddress.suburb}, ${orgReq.orgAddress.city}, ${orgReq.orgAddress.province}, ${orgReq.orgAddress.postalCode}`}</td>
+                    <td className='py-3 px-3'>{getStudentNumber(orgReq.studentID ? orgReq.studentID : "N/A")}</td>
                     <td className="py-3 px-4">
                       <div className="flex justify-end space-x-2">
                         <button
-                          onClick={() => handleViewRequest(orgReq)}
-                          className="bg-green-500 text-white px-4 py-2 rounded font-bold"
-                        >
-                          VIEW
-                        </button>
-                        <button
-                          onClick={() => handleDeny()}
+                          onClick={() => handleDeny(orgReq.request_id)}
                           className="bg-red-500 text-white px-4 py-2 rounded font-bold"
                         >
                           DENY
                         </button>
                         <button
-                          onClick={() => handleApprove()}
+                          onClick={() => handleApprove(orgReq.request_id)}
                           className="bg-blue-500 text-white px-4 py-2 rounded font-bold"
                         >
                           APPROVE
@@ -116,13 +129,7 @@ const OrgApprovalsTable: React.FC = () => {
           )}
         </div>
       )}
-      <OrgRequestModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        requestDetails={selectedRequest}
-        onApprove={handleApprove}
-        onDeny={handleDeny}
-      />
+      <OrgReqStatusModal isOpen={modalOpen} approvalStatus={orgRequestApproved} onClose={() => setModalOpen(false)}/>
     </>
   );
 };

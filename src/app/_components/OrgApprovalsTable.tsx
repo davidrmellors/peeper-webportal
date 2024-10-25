@@ -3,9 +3,8 @@ import { api } from "~/trpc/react";
 import OrgRequestSkeleton from './OrgRequestSkeleton';
 import { database } from '~/server/db/firebaseConfig';
 import { ref, onValue } from 'firebase/database';
-import type { OrgRequestData } from '~/server/db/interfaces/OrgRequestData'; // Use import type
+import { OrgRequestData } from '~/server/db/interfaces/OrgRequestData'; // Use import type
 import OrgRequestModal from './OrgRequestModal';
-import { OrgRequest } from '~/server/db/databaseClasses/OrgRequest';
 
 const OrgApprovalsTable: React.FC = () => {
   const [orgRequests, setOrgRequests] = useState<OrgRequestData[]>([]);
@@ -20,10 +19,10 @@ const OrgApprovalsTable: React.FC = () => {
     const orgRequestsRef = ref(database, 'orgRequests');
 
     const unsubscribe = onValue(orgRequestsRef, (snapshot) => {
-      const data = snapshot.val();
+      const data = snapshot.val() as OrgRequestData;
       if (data) {
-        const requests = Object.values(data) as OrgRequestData[];
-        const pendingRequests = requests.filter((req: OrgRequestData) => req.approvalStatus === 0); // Assuming 0 is Pending
+        const requests = Object.values(data);
+        const pendingRequests = requests.filter((req) => req.approvalStatus === 0); // Assuming 0 is Pending
         setOrgRequests(pendingRequests);
       } else {
         setOrgRequests([]);

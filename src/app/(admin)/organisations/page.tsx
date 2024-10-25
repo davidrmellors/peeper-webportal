@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Search, MoreHorizontal, ChevronDown } from 'lucide-react';
-import { OrgAddressData } from '~/server/db/interfaces/OrgAddressData';
+import type { OrgAddressData } from '~/server/db/interfaces/OrgAddressData';
 import OrganisationsSkeleton from '~/app/_components/OrganistationsSkeleton';
 import { api } from '~/trpc/react';
 

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSignIn, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { EmailCodeFactor } from "@clerk/types";
+import type { EmailCodeFactor } from "@clerk/types";
 import { 
   InputOTP,
   InputOTPGroup,

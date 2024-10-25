@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
-import { Student } from '../../server/db/databaseClasses/Student';
+import type { Student } from '../../server/db/databaseClasses/Student';
 import { api } from '~/trpc/react';
 
 interface GenerateReportModalProps {

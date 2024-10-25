@@ -5,6 +5,7 @@ import { database } from '~/server/db/firebaseConfig';
 import { ref, onValue } from 'firebase/database';
 import type { OrgRequestData } from '~/server/db/interfaces/OrgRequestData'; // Use import type
 import OrgRequestModal from './OrgRequestModal';
+import { OrgRequest } from '~/server/db/databaseClasses/OrgRequest';
 
 const OrgApprovalsTable: React.FC = () => {
   const [orgRequests, setOrgRequests] = useState<OrgRequestData[]>([]);
@@ -21,9 +22,8 @@ const OrgApprovalsTable: React.FC = () => {
     const unsubscribe = onValue(orgRequestsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        // Use type assertion to specify the expected type
-        const requests = Object.values(data) as OrgRequestData[]; // Assert the type here
-        const pendingRequests = requests.filter((req) => req.approvalStatus === 0); // Assuming 0 is Pending
+        const requests = Object.values(data) as OrgRequestData[];
+        const pendingRequests = requests.filter((req: OrgRequestData) => req.approvalStatus === 0); // Assuming 0 is Pending
         setOrgRequests(pendingRequests);
       } else {
         setOrgRequests([]);

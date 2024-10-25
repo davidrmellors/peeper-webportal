@@ -3,7 +3,6 @@ import { ClerkProvider, SignedIn, SignedOut } from '@clerk/nextjs'
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
-import AdminLayout from './(admin)/layout';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export const metadata: Metadata = {

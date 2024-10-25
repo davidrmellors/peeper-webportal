@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { api } from '~/trpc/react';
 
 export function usePrefetch() {

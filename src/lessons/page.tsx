@@ -1,12 +1,12 @@
 // HowToPage.tsx
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
+import Image from "next/image";
 
 // Reusable components
 const NavLink = ({
@@ -140,7 +140,7 @@ const HowToPage = () => {
           </Link>
           <div className="relative flex items-center gap-4 overflow-hidden rounded-full bg-white px-6 py-2 shadow-lg backdrop-blur-sm">
             <div className="absolute top-1/2 left-0 w-8 h-8 animate-swim">
-              <img
+              <Image
                 src="images/rubber-ducky.webp"
                 alt="Rubber Ducky"
                 className="w-full h-full"

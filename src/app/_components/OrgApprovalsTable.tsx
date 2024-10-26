@@ -6,6 +6,8 @@ import { ref, onValue } from 'firebase/database';
 import { OrgRequestData } from '~/server/db/interfaces/OrgRequestData'; // Use import type
 import OrgReqStatusModal from './OrgReqStatusModal';
 import ViewStudentsModal from './viewStudentsModal';
+import { OrganisationData } from '../(admin)/organisations/page';
+import { OrgAddress } from '~/server/db/databaseClasses/OrgAddress';
 
 const OrgApprovalsTable: React.FC = () => {
   const [orgRequests, setOrgRequests] = useState<OrgRequestData[]>([]);
@@ -13,6 +15,7 @@ const OrgApprovalsTable: React.FC = () => {
   const [error, setError] = useState<Error | null>(null);
   const approveOrgRequest = api.orgRequest.approveOrgRequest.useMutation();
   const denyOrgRequest = api.orgRequest.denyOrgRequest.useMutation();
+  const addOrganisation = api.organisation.addOrganisation.useMutation();
   const [modalOpen, setModalOpen] = useState(false);
   const [orgRequestApproved, setApprovalStatus ] = useState(false);
   const [viewMoreModalOpen, setViewModalOpen] = useState(false);
@@ -40,6 +43,8 @@ const OrgApprovalsTable: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
+  
+
   const handleApprove = async (orgReqId: string) => {
     console.log("Approve clicked");
     if (orgReqId) {
@@ -47,6 +52,19 @@ const OrgApprovalsTable: React.FC = () => {
           onSuccess: () => {
             setModalOpen(true);
             setApprovalStatus(true);
+            const orgRequest = orgRequests.find(orgReq => orgReq.request_id === orgReqId);
+            if (orgRequest) {
+              const org: OrganisationData = {
+                org_id: orgRequest.org_id,
+                orgName: orgRequest.name,
+                orgAddress: new OrgAddress(orgRequest.orgAddress),
+                orgEmail: orgRequest.email ? orgRequest.email : "",
+                orgPhoneNo: orgRequest.phoneNo ? orgRequest.phoneNo : "",
+                orgLatitude: orgRequest.orgLatitude,
+                orgLongitude: orgRequest.orgLongitude,
+              };
+              addOrganisation.mutate({ org }); 
+            }
           },
           onError: (error) => {
             console.log(error);

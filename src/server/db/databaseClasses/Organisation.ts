@@ -27,8 +27,9 @@ export class Organisation implements OrganisationData {
     return data ? new Organisation(data) : null;
   }
 
-  async save(): Promise<void> {
-    await DatabaseUtility.setData(`organisations/${this.org_id}`, this.toJSON());
+  static async save(org: OrganisationData): Promise<void> {
+    const organisationInstance = new Organisation(org); // Create an instance
+    await DatabaseUtility.setData(`organisations/${org.org_id}`, organisationInstance.toJSON()); // Call toJSON on the instance
   }
 
   async update(updates: Partial<OrganisationData>): Promise<void> {

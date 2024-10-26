@@ -94,7 +94,7 @@ const StudentsPage: React.FC = () => {
         </div>
         <div className='flex '>
         <button onClick={handleAddClick} className="bg-lime-500 text-white px-4 py-2 rounded-lg flex items-center">
-          MANAGE <span className="ml-2 bg-white text-lime-500 rounded-full w-5 h-5 flex items-center justify-center">{selectedStudentIds.size}</span>
+          ADD STUDENTS <span className="ml-2 bg-white text-lime-500 rounded-full w-5 h-5 flex items-center justify-center">{selectedStudentIds.size}</span>
         </button>
         <button onClick={handleMoreClick} className="bg-lime-500 text-white px-4 py-2 rounded-lg flex items-center">
           MANAGE <span className="ml-2 bg-white text-lime-500 rounded-full w-5 h-5 flex items-center justify-center">{selectedStudentIds.size}</span>

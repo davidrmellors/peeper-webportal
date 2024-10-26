@@ -18,16 +18,11 @@ export const orgRequestsRouter = createTRPCRouter({
       // Update the request status
       orgRequest.approvalStatus = ApprovalStatus.Approved;
       await orgRequest.save();
-
-      // Fetch the student's email
-      const student = await Student.fetchById(orgRequest.studentID);
-      if (!student) {
-        throw new Error("Student not found");
-      }
-
+      
       try {
         // Attempt to send approval email
-        await sendApprovalEmail(student.email, orgRequest.name);
+         
+        await sendApprovalEmail(orgRequest.studentIDs, orgRequest.name);
       } catch (error) {
         console.error("Failed to send approval email:", error);
         // Continue with the approval process even if email sending fails

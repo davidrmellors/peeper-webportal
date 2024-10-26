@@ -11,7 +11,7 @@ export class Student implements StudentData {
   profilePhotoURL?: string;
   activeOrgs: string[];
   locationData: Record<string, SessionLog>;
-  hours: number;
+  hours?: number;
   constructor(data: StudentData) {
     this.student_id = data.student_id;
     this.studentNumber = data.studentNumber || "";

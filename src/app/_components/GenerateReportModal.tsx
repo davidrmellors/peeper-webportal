@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import type { Student } from '../../server/db/databaseClasses/Student';
 import { api } from '~/trpc/react';
+import { generatePDFReports } from '~/utils/pdfConverter';
+import { Progress } from '~/components/ui/progress';
 
 interface GenerateReportModalProps {
   isOpen: boolean;
@@ -18,7 +20,8 @@ const GenerateReportModal: React.FC<GenerateReportModalProps> = ({
 }) => {
   const generateExcel = api.student.generateExcelReport.useMutation();
   const [fileType, setFileType] = useState<'xlsx' | 'pdf'>('xlsx');
-
+  const [progress, setProgress] = useState(0);
+  
   if (!isOpen) return null;
 
   const handleDownloadExcel = async() =>{
@@ -49,11 +52,49 @@ const GenerateReportModal: React.FC<GenerateReportModalProps> = ({
     }
   }
 
-  const handleSubmit = () => {
-    if(fileType === 'xlsx') void handleDownloadExcel();
-    //else PDFShareFunctionality
-    onGenerate(selectedStudents, fileType);
-    onClose();
+  const handleSubmit = async () => {
+    if (fileType === 'xlsx') {
+      void handleDownloadExcel();
+      onClose();
+    } else {
+      try {
+        setProgress(0);
+        // Simulate progress for PDF generation
+        const progressInterval = setInterval(() => {
+          setProgress(prev => {
+            if (prev >= 90) {
+              clearInterval(progressInterval);
+              return 90;
+            }
+            return prev + 10;
+          });
+        }, 500);
+
+        const blob = await generatePDFReports(selectedStudents);
+        
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = selectedStudents.length === 1 && selectedStudents[0]?.studentNumber
+          ? `${selectedStudents[0].studentNumber}_report.pdf`
+          : 'student_reports.zip';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        clearInterval(progressInterval);
+        setProgress(100);
+        
+        setTimeout(() => {
+          onClose();
+          setProgress(0);
+        }, 1000);
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        setProgress(0);
+      }
+    }
   };
 
   return (
@@ -99,11 +140,22 @@ const GenerateReportModal: React.FC<GenerateReportModalProps> = ({
             </div>
           </div>
 
+          {fileType === 'pdf' && progress > 0 && (
+            <div className="mt-6">
+              <div className="flex justify-between mb-2 text-sm text-gray-600">
+                <span>Generating PDF{selectedStudents.length > 1 ? 's' : ''}</span>
+                <span>{progress}%</span>
+              </div>
+              <Progress value={progress} className="w-full" />
+            </div>
+          )}
+
           <button
             onClick={handleSubmit}
             className="w-full mt-6 py-2 bg-lime-500 text-white rounded-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={progress > 0 && progress < 100}
           >
-            GENERATE
+            {progress > 0 && progress < 100 ? 'GENERATING...' : 'GENERATE'}
           </button>
         </div>
       </div>

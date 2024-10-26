@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { X } from 'lucide-react';
 
 interface viewStudentsModalProps {
@@ -34,8 +34,8 @@ const ViewStudentsModal: React.FC<viewStudentsModalProps> = ({
 
           <div className="space-y-2">   
             <div>
-                {students.map((student_number: string) => (
-                    <p className="text-center mb-2">{student_number}</p>
+                {students.map((student_number: string, index: number) => (
+                    <p key={index} className="text-center mb-2">{student_number}</p>
                 ))}
             </div>
           </div>

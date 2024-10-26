@@ -14,16 +14,6 @@ export class ApprovedStudents implements ApprovedStudentsData {
     await DatabaseUtility.setData(`approvedStudents/`, approvedStudents);
   }
 
-  // Update approved students in the database
-  async update(updates: Partial<ApprovedStudentsData>): Promise<void> {
-    await DatabaseUtility.updateData(`approvedStudents/${this.approvedStudents}`, updates);
-  }
-
-  // Delete approved students from the database
-  async delete(): Promise<void> {
-    await DatabaseUtility.deleteData(`approvedStudents/${this.approvedStudents}`);
-  }
-
   // Convert the instance to a plain object for storage
   toJSON(): ApprovedStudentsData {
     return {

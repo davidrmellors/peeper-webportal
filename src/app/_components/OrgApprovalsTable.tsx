@@ -3,10 +3,10 @@ import { api } from "~/trpc/react";
 import OrgRequestSkeleton from './OrgRequestSkeleton';
 import { database } from '~/server/db/firebaseConfig';
 import { ref, onValue } from 'firebase/database';
-import { OrgRequestData } from '~/server/db/interfaces/OrgRequestData'; // Use import type
+import type { OrgRequestData } from '~/server/db/interfaces/OrgRequestData'; // Use import type
 import OrgReqStatusModal from './OrgReqStatusModal';
 import ViewStudentsModal from './viewStudentsModal';
-import { OrganisationData } from '../(admin)/organisations/page';
+import type { OrganisationData } from '../(admin)/organisations/page';
 import { OrgAddress } from '~/server/db/databaseClasses/OrgAddress';
 
 const OrgApprovalsTable: React.FC = () => {

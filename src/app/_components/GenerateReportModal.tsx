@@ -15,7 +15,6 @@ interface GenerateReportModalProps {
 const GenerateReportModal: React.FC<GenerateReportModalProps> = ({
   isOpen,
   onClose,
-  onGenerate,
   selectedStudents,
 }) => {
   const generateExcel = api.student.generateExcelReport.useMutation();

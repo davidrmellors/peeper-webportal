@@ -73,6 +73,10 @@ const StudentsPage: React.FC = () => {
     setModalOpen(false);
   };
 
+  const handleAddClick = () => {
+      
+  };
+
   return (
     <div className="space-y-4">
       <h1 className="text-4xl font-bold">STUDENTS</h1>
@@ -88,9 +92,15 @@ const StudentsPage: React.FC = () => {
           />
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
+        <div className='flex '>
+        <button onClick={handleAddClick} className="bg-lime-500 text-white px-4 py-2 rounded-lg flex items-center">
+          MANAGE <span className="ml-2 bg-white text-lime-500 rounded-full w-5 h-5 flex items-center justify-center">{selectedStudentIds.size}</span>
+        </button>
         <button onClick={handleMoreClick} className="bg-lime-500 text-white px-4 py-2 rounded-lg flex items-center">
           MANAGE <span className="ml-2 bg-white text-lime-500 rounded-full w-5 h-5 flex items-center justify-center">{selectedStudentIds.size}</span>
         </button>
+        </div>
+       
       </div>
     {isLoading ? <StudentsSkeleton /> : (
       <div className="bg-white rounded-lg overflow-hidden">

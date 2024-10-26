@@ -6,6 +6,7 @@ import { api } from "~/trpc/react";
 import StudentsSkeleton from '~/app/_components/StudentsSkeleton';
 import StudentActionModal from '~/app/_components/StudentActionModal';
 import GenerateReportModal from '~/app/_components/GenerateReportModal';
+import UploadCSVModal from '~/app/_components/UploadCSVModal';
 
 const StudentsPage: React.FC = () => {
   const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string>>(new Set());
@@ -14,8 +15,10 @@ const StudentsPage: React.FC = () => {
   
   const [modalOpen, setModalOpen] = useState(false);
   const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
 
   const { data: students, isLoading } = api.student.getAllStudents.useQuery();
+  const addApprovedStudentsMutation = api.approvedStudents.addApprovedStudents.useMutation();
 
   const filteredStudents = useMemo(() => {
     return students?.filter(student => 
@@ -73,9 +76,12 @@ const StudentsPage: React.FC = () => {
     setModalOpen(false);
   };
 
-  const handleAddClick = () => {
-      
+  const handleUploadStudentNumbers = (studentNumbers: string[]) => {
+    console.log('Uploaded Student Numbers:', studentNumbers);
+    addApprovedStudentsMutation.mutate({ approvedStudents: studentNumbers });
   };
+
+  
 
   return (
     <div className="space-y-4">
@@ -92,15 +98,14 @@ const StudentsPage: React.FC = () => {
           />
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
-        <div className='flex '>
-        <button onClick={handleAddClick} className="bg-lime-500 text-white px-4 py-2 rounded-lg flex items-center">
-          ADD STUDENTS <span className="ml-2 bg-white text-lime-500 rounded-full w-5 h-5 flex items-center justify-center">{selectedStudentIds.size}</span>
+        <div className='flex space-x-4'>
+        <button onClick={() => setUploadModalOpen(true)} className="bg-lime-500 text-white px-4 py-2 rounded-lg flex items-center">
+          ADD STUDENTS
         </button>
         <button onClick={handleMoreClick} className="bg-lime-500 text-white px-4 py-2 rounded-lg flex items-center">
           MANAGE <span className="ml-2 bg-white text-lime-500 rounded-full w-5 h-5 flex items-center justify-center">{selectedStudentIds.size}</span>
         </button>
         </div>
-       
       </div>
     {isLoading ? <StudentsSkeleton /> : (
       <div className="bg-white rounded-lg overflow-hidden">
@@ -164,6 +169,11 @@ const StudentsPage: React.FC = () => {
         selectedStudents={filteredStudents.filter(s => selectedStudentIds.has(s.student_id))}
         onClose={() => setReportModalOpen(false)}
         onGenerate={handleGenerateReportSubmit}
+      />
+      <UploadCSVModal
+        isOpen={uploadModalOpen}
+        onClose={() => setUploadModalOpen(false)}
+        onUpload={handleUploadStudentNumbers}
       />
     </div>
   );

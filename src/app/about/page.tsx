@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import Navbar from "~/app/_components/PublicNavigation";
+import Image from "next/image";
 
 
 
@@ -55,7 +56,7 @@ const DeveloperCard = ({
       whileHover={{ y: -5, scale: 1.02 }}
     >
       <div className="mb-4 h-32 w-32 mx-auto overflow-hidden rounded-full bg-lime-100">
-        <img
+        <Image
           src={`/images/${imageName}.webp`}
           alt={`${name}'s photo`}
           className="h-full w-full object-cover"
@@ -66,7 +67,7 @@ const DeveloperCard = ({
       <p className="text-gray-600 text-center">{description}</p>
       <div className="flex justify-center mt-4">
         <a href={linkedInUrl} target="_blank" rel="noopener noreferrer">
-          <img
+          <Image
             src="/images/linkedin-logo.png"
             alt="LinkedIn"
             className="h-6 w-6"

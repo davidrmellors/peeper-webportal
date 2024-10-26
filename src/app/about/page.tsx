@@ -185,7 +185,7 @@ const AboutPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
-              We're on a mission to make community service tracking seamless and meaningful. 
+              We&apos;re on a mission to make community service tracking seamless and meaningful. 
               Our platform connects students, organizations, and educators in a powerful ecosystem 
               designed to maximize social impact.
             </motion.p>
@@ -224,7 +224,7 @@ const AboutPage = () => {
                 Meet Our Team
               </h2>
               <p className="mx-auto max-w-3xl text-xl text-gray-600">
-                We're a diverse team of developers, designers, and dreamers working 
+                We&apos;re a diverse team of developers, designers, and dreamers working 
                 together to create the best community service tracking platform.
               </p>
             </motion.div>

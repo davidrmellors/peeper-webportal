@@ -33,7 +33,7 @@ const EmojiConfetti = () => {
       style: { [key: string]: string | number };
     }>
   >([]);
-    
+
   useEffect(() => {
     const createEmoji = () => {
       const newEmojis = [];
@@ -195,9 +195,8 @@ export default function Home() {
     }
   };
 
-
   const handleAbout = () => {
-   router.push("/about");
+    router.push("/about");
   };
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -215,7 +214,7 @@ export default function Home() {
     <Suspense fallback={<PageSkeleton />}>
       <div className="relative">
         {showConfetti && <EmojiConfetti />}
-        
+
         {/* Enhanced Navbar with smooth transition */}
         <Navbar isNavVisible={isNavVisible} />
 
@@ -227,7 +226,8 @@ export default function Home() {
             <motion.div
               className="absolute inset-0 opacity-[0.03]"
               style={{
-                backgroundImage: "radial-gradient(circle at 1px 1px, black 1px, transparent 0)",
+                backgroundImage:
+                  "radial-gradient(circle at 1px 1px, black 1px, transparent 0)",
                 backgroundSize: "50px 50px",
                 transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
               }}
@@ -318,7 +318,9 @@ export default function Home() {
                     className="rounded-xl bg-white/80 p-6 shadow-lg backdrop-blur-sm"
                     whileHover={{ y: -5 }}
                   >
-                    <h3 className="text-4xl font-bold bg-gradient-to-br from-[#FCDE39] to-[#D4B72D] bg-clip-text text-transparent">100+</h3>
+                    <h3 className="bg-gradient-to-br from-[#FCDE39] to-[#D4B72D] bg-clip-text text-4xl font-bold text-transparent">
+                      100+
+                    </h3>
                     <p className="text-gray-600">Active Users</p>
                   </motion.div>
                 </FloatingElement>
@@ -328,7 +330,9 @@ export default function Home() {
                     className="rounded-xl bg-white/80 p-6 shadow-lg backdrop-blur-sm"
                     whileHover={{ y: -5 }}
                   >
-                    <h3 className="text-4xl font-bold bg-gradient-to-br from-[#FE7143] to-[#D65A35] bg-clip-text text-transparent">50K+</h3>
+                    <h3 className="bg-gradient-to-br from-[#FE7143] to-[#D65A35] bg-clip-text text-4xl font-bold text-transparent">
+                      50K+
+                    </h3>
                     <p className="text-gray-600">Hours Tracked</p>
                   </motion.div>
                 </FloatingElement>
@@ -338,7 +342,9 @@ export default function Home() {
                     className="rounded-xl bg-white/80 p-6 shadow-lg backdrop-blur-sm"
                     whileHover={{ y: -5 }}
                   >
-                    <h3 className="text-4xl font-bold bg-gradient-to-br from-[#C8B0FF] to-[#A48ED7] bg-clip-text text-transparent">100+</h3>
+                    <h3 className="bg-gradient-to-br from-[#C8B0FF] to-[#A48ED7] bg-clip-text text-4xl font-bold text-transparent">
+                      100+
+                    </h3>
                     <p className="text-gray-600">Organizations</p>
                   </motion.div>
                 </FloatingElement>
@@ -346,86 +352,90 @@ export default function Home() {
             </div>
           </section>
           {/* Enhanced second section */}
-            <motion.section
+          <motion.section
             className="relative z-20 flex min-h-screen w-full flex-col items-center justify-center overflow-hidden rounded-tl-[50px] rounded-tr-[50px] bg-gradient-to-b from-lime-500 to-lime-700 text-white"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            >
-           
+          >
             <div className="container mx-auto max-w-7xl px-4 py-16">
               <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mb-16 text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mb-16 text-center"
               >
-              <h2 className="mb-6 text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-                Making Impact Visible
-              </h2>
-              <p className="mx-auto max-w-3xl text-xl">
-                Transform your community service journey with powerful
-                tracking tools and meaningful insights
-              </p>
+                <h2 className="mb-6 text-5xl font-extrabold tracking-tight sm:text-[5rem]">
+                  Making Impact Visible
+                </h2>
+                <p className="mx-auto max-w-3xl text-xl">
+                  Transform your community service journey with powerful
+                  tracking tools and meaningful insights
+                </p>
               </motion.div>
 
               <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-              <FeatureCard
-                icon="🧭"
-                title="Live Tracking"
-                description="Track your community service live. Wherever. Whenever."
-              />
-              <FeatureCard
-                icon="✨"
-                title="Add your Own"
-                description="Don't have your chosen organisation? Feel free to add it! "
-              />
-              <FeatureCard
-                icon="💪"
-                title="Community Connect"
-                description="You now have verified documentation confirming your participation in the required community service program"
-              />
+                <FeatureCard
+                  icon="🧭"
+                  title="Live Tracking"
+                  description="Track your community service live. Wherever. Whenever."
+                />
+                <FeatureCard
+                  icon="✨"
+                  title="Add your Own"
+                  description="Don't have your chosen organisation? Feel free to add it! "
+                />
+                <FeatureCard
+                  icon="💪"
+                  title="Community Connect"
+                  description="You now have verified documentation confirming your participation in the required community service program"
+                />
               </div>
 
               <motion.div
-  className="mt-16 text-center"
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
->
-  <motion.button
-    className="rounded-full bg-white px-8 py-4 text-lg font-bold text-lime-600 shadow-lg"
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    onClick={handleStartTrackingClick}
-  >
-    Start Tracking Now
-  </motion.button>
+                className="mt-16 text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <motion.button
+                  className="rounded-full bg-white px-8 py-4 text-lg font-bold text-lime-600 shadow-lg"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleStartTrackingClick}
+                >
+                  Start Tracking Now
+                </motion.button>
 
-  {showPlatformButtons && (
-    <div className="mt-4 flex justify-center gap-4">
-      <motion.button
-        className="rounded-full bg-lime-600 px-6 py-2 text-sm font-semibold text-white shadow-lg"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => window.location.href = 'https://play.google.com/store'}
-      >
-        Android
-      </motion.button>
-      <motion.button
-        className="rounded-full bg-lime-600 px-6 py-2 text-sm font-semibold text-white shadow-lg"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => window.location.href = 'https://www.apple.com/app-store'}
-      >
-        iOS
-      </motion.button>
-    </div>
-  )}
-</motion.div>
-</div>
-</motion.section>
+                {showPlatformButtons && (
+                  <div className="mt-4 flex justify-center gap-4">
+                    <motion.button
+                      className="rounded-full bg-lime-600 px-6 py-2 text-sm font-semibold text-white shadow-lg"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() =>
+                        (window.location.href = "https://play.google.com/store")
+                      }
+                    >
+                      Android
+                    </motion.button>
+                    <motion.button
+                      className="rounded-full bg-lime-600 px-6 py-2 text-sm font-semibold text-white shadow-lg"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() =>
+                        (window.location.href =
+                          "https://www.apple.com/app-store")
+                      }
+                    >
+                      iOS
+                    </motion.button>
+                  </div>
+                )}
+              </motion.div>
+            </div>
+          </motion.section>
           {/* Enhanced third section */}
           <section className="relative flex min-h-screen w-full flex-col items-center justify-center bg-white text-gray-800">
             <div className="container mx-auto max-w-7xl px-4 py-16">
@@ -439,7 +449,9 @@ export default function Home() {
                   Join Our Growing Community
                 </h2>
                 <p className="mx-auto max-w-3xl text-xl text-gray-600">
-                Contribute to your community, monitor your impact, and see the difference you make. Every step you take brings positive change! 
+                  Contribute to your community, monitor your impact, and see the
+                  difference you make. Every step you take brings positive
+                  change!
                 </p>
               </motion.div>
 
@@ -450,11 +462,9 @@ export default function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                 >
-                    <div className="aspect-video rounded-2xl bg-[linear-gradient(135deg,#D9E7FF,#B8CCF0)] p-1">
+                  <div className="aspect-video rounded-2xl bg-[linear-gradient(135deg,#D9E7FF,#B8CCF0)] p-1">
                     <div className="h-full w-full rounded-2xl bg-white p-6">
-                      <h3 className="mb-4 text-2xl font-bold">
-                        For Students
-                      </h3>
+                      <h3 className="mb-4 text-2xl font-bold">For Students</h3>
                       <ul className="space-y-4">
                         <li className="flex items-center">
                           <span className="mr-2">✨</span>
@@ -491,11 +501,9 @@ export default function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                 >
-                    <div className="aspect-video rounded-2xl bg-[linear-gradient(135deg,#B8CCF0,#B8CCF0)] p-1">
+                  <div className="aspect-video rounded-2xl bg-[linear-gradient(135deg,#B8CCF0,#B8CCF0)] p-1">
                     <div className="h-full w-full rounded-2xl bg-white p-6">
-                      <h3 className="mb-4 text-2xl font-bold">
-                        For Lecturers
-                      </h3>
+                      <h3 className="mb-4 text-2xl font-bold">For Lecturers</h3>
                       <ul className="space-y-4">
                         <li className="flex items-center">
                           <span className="mr-2">📊</span>
@@ -552,5 +560,5 @@ export default function Home() {
         </main>
       </div>
     </Suspense>
-  );
+  );
 }

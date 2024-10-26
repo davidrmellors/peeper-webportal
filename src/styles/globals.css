@@ -135,3 +135,87 @@
 
 h1 {
 }
+
+/* Add this CSS to your global stylesheet or a CSS module */
+.hover-animation {
+  animation: hoverEffect 3s infinite alternate;
+}
+
+@keyframes hoverEffect {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes swim {
+  0% {
+    transform: translateX(-50px) scaleX(-1);
+  }
+  25% {
+    transform: translateX(0px) scaleX(-1); /* Duck pauses a bit */
+  }
+  50% {
+    transform: translateX(calc(100vw + 50px)) scaleX(1);
+  }
+  75% {
+    transform: translateX(calc(100vw + 50px)) scaleX(-1); /* Flip horizontally */
+  }
+  100% {
+    transform: translateX(-50px) scaleX(1);
+  }
+}
+
+.animate-swim {
+  animation: swim 5s linear infinite;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10; /* Ensure it is above other elements */
+}
+
+.bg-radial-gradient {
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgb(10, 216, 54) 100%);
+}
+
+.navbar-transparent {
+  background-color: transparent;
+}
+
+.crop-video {
+  object-fit: cover; /* Ensures the video covers the container */
+  object-position: center; /* Centers the video within the container */
+  width: 100%; /* Ensures the video takes the full width of the container */
+  height: 100%; /* Ensures the video takes the full height of the container */
+}
+
+/* Example of more specific cropping */
+.crop-video-top-left {
+  object-position: top left; /* Crops the video to show the top-left corner */
+}
+
+.crop-video-bottom-right {
+  object-position: bottom right; /* Crops the video to show the bottom-right corner */
+}
+
+.crop-video-custom {
+  object-position: 100% 75%; /* Crops the video to show a custom position */
+}

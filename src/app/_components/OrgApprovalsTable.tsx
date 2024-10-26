@@ -5,6 +5,7 @@ import { database } from '~/server/db/firebaseConfig';
 import { ref, onValue } from 'firebase/database';
 import { OrgRequestData } from '~/server/db/interfaces/OrgRequestData'; // Use import type
 import OrgReqStatusModal from './OrgReqStatusModal';
+import ViewStudentsModal from './viewStudentsModal';
 
 const OrgApprovalsTable: React.FC = () => {
   const [orgRequests, setOrgRequests] = useState<OrgRequestData[]>([]);
@@ -14,6 +15,8 @@ const OrgApprovalsTable: React.FC = () => {
   const denyOrgRequest = api.orgRequest.denyOrgRequest.useMutation();
   const [modalOpen, setModalOpen] = useState(false);
   const [orgRequestApproved, setApprovalStatus ] = useState(false);
+  const [viewMoreModalOpen, setViewModalOpen] = useState(false);
+
 
   useEffect(() => {
     const orgRequestsRef = ref(database, 'orgRequests');
@@ -69,11 +72,10 @@ const OrgApprovalsTable: React.FC = () => {
     }
   };
 
-  const { data: students } = api.student.getAllStudents.useQuery();
-  const getStudentNumber = (studentId: string) => {
-    const student = students?.find(s => s.student_id === studentId);
-    return student?.studentNumber ?? 'N/A';
+  const handleViewMore = () => {
+    setViewModalOpen(true);
   };
+
 
   if (error) return <div>Error loading organization requests: {error.message}</div>;
 
@@ -100,7 +102,7 @@ const OrgApprovalsTable: React.FC = () => {
                     <td className="py-3 px-4">{orgReq.email ? orgReq.email : "N/A"}</td>
                     <td className="py-3 px-4">{orgReq.phoneNo ? orgReq.phoneNo : "N/A"}</td>
                     <td className="py-3 px-4">{`${orgReq.orgAddress.suburb}, ${orgReq.orgAddress.city}, ${orgReq.orgAddress.province}, ${orgReq.orgAddress.postalCode}`}</td>
-                    <td className='py-3 px-3'>{getStudentNumber(orgReq.studentID ? orgReq.studentID : "N/A")}</td>
+                    <td className='py-3 px-3'><button onClick={handleViewMore} className="bg-lime-500 text-white px-4 py-1 rounded">VIEW</button></td>
                     <td className="py-3 px-4">
                       <div className="flex justify-end space-x-2">
                         <button
@@ -130,6 +132,7 @@ const OrgApprovalsTable: React.FC = () => {
         </div>
       )}
       <OrgReqStatusModal isOpen={modalOpen} approvalStatus={orgRequestApproved} onClose={() => setModalOpen(false)}/>
+      <ViewStudentsModal onClose={() => setViewModalOpen(false)} isOpen={viewMoreModalOpen} students={orgRequests.flatMap((orgReq) => (orgReq.studentIDs))}/>
     </>
   );
 };

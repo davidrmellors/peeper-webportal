@@ -122,7 +122,7 @@ const StudentsPage: React.FC = () => {
           </thead>
           <tbody>
             {filteredStudents.map((student) => {
-              const status = calculateStatus(student.hours);
+              const status = calculateStatus(student.hours ? student.hours : 0);
               const isSelected = selectedStudentIds.has(student.student_id);
               return (
                 <tr 

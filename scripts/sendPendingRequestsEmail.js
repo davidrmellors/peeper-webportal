@@ -90,7 +90,7 @@ function sendPendingRequestsEmail() {
                         return [2 /*return*/];
                     }
                     admins = Object.values(adminSnapshot.val());
-                    superAdmin = admins.find(function (admin) { return admin.type === 'SuperAdmin'; });
+                    superAdmin = admins.find(function (admin) { return admin.adminType === 'SuperAdmin'; });
                     if (!superAdmin) {
                         console.log('No superadmin found');
                         return [2 /*return*/];

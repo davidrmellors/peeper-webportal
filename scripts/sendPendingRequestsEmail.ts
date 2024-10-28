@@ -2,7 +2,6 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get } from "firebase/database";
 import sgMail from "@sendgrid/mail";
 import dotenv from "dotenv";
-import { AdminType } from "../src/server/db/interfaces/enums.js"; // Import the enum
 
 // Load environment variables
 dotenv.config();
@@ -44,6 +43,11 @@ interface Admin {
   viewableStudents: string[];
 }
 
+enum AdminType {
+  SuperAdmin = 0,
+  Admin = 1,
+}
+
 async function sendPendingRequestsEmail() {
   try {
     // Fetch all requests and filter in memory
@@ -77,7 +81,8 @@ async function sendPendingRequestsEmail() {
     }
     console.log("Admin data:", adminSnapshot.val());
 
-    const admins = Object.values(adminSnapshot.val()) as Admin[];
+    const admins = Object.values(adminSnapshot.val() as Admin[]);
+    console.log("Parsed admins:", admins);
     const superAdmin = admins.find(
       (admin) => admin.adminType === AdminType.SuperAdmin,
     );

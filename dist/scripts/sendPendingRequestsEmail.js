@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// @ts-nocheck
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get } from "firebase/database";
 import sgMail from "@sendgrid/mail";

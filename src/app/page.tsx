@@ -1,12 +1,11 @@
 "use client";
 
 import { Suspense, useState, useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import PhoneDisplay from "~/app/_components/PhoneModel";
 import PageSkeleton from "~/app/_components/PageSkeleton";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import Navbar from "~/app/_components/PublicNavigation";
 
 const charityEmojis = [
@@ -103,26 +102,6 @@ const FloatingElement = ({
   </motion.div>
 );
 
-const NavLink = ({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) => (
-  <Link
-    href={href}
-    className="group relative text-sm font-semibold text-gray-800"
-  >
-    {children}
-    <motion.div
-      className="absolute -bottom-1 left-0 h-0.5 w-0 bg-lime-500"
-      whileHover={{ width: "100%" }}
-      transition={{ duration: 0.2 }}
-    />
-  </Link>
-);
-
 const FeatureCard = ({
   icon,
   title,
@@ -150,7 +129,6 @@ export default function Home() {
   const router = useRouter();
   const { isSignedIn } = useAuth();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const { scrollYProgress } = useScroll();
   const [showConfetti, setShowConfetti] = useState(true);
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);

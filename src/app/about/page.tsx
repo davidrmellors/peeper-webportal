@@ -2,32 +2,8 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Navbar from "~/app/_components/PublicNavigation";
 import Image from "next/image";
-
-
-
-// Reusing the NavLink component from the landing page
-const NavLink = ({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) => (
-  <Link
-    href={href}
-    className="group relative text-sm font-semibold text-gray-800"
-  >
-    {children}
-    <motion.div
-      className="absolute -bottom-1 left-0 h-0.5 w-0 bg-lime-500"
-      whileHover={{ width: "100%" }}
-      transition={{ duration: 0.2 }}
-    />
-  </Link>
-);
 
 // Developer card component
 const DeveloperCard = ({

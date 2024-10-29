@@ -4,8 +4,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
 import Navbar from "~/app/_components/PublicNavigation";
 
 

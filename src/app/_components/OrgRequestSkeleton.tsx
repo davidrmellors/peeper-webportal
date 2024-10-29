@@ -16,7 +16,7 @@ const OrgRequestSkeleton: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {Array.from({ length: 20 } as { length: number }).map((_, i) => (
+            {Array.from({ length: 10 } as { length: number }).map((_, i) => (
               <tr key={i} className="border-b">
                 <td className="p-2"><Skeleton className="h-5 w-5 rounded" /></td>
                 <td className="p-2"><Skeleton className="h-6 w-full" /></td>

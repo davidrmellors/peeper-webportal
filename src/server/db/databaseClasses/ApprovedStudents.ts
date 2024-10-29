@@ -9,9 +9,15 @@ export class ApprovedStudents implements ApprovedStudentsData {
   }
 
   // Save the approved students to the database
-  static async save(approvedStudents: string[]): Promise<void> {
+  static async save(newStudents: string[]): Promise<void> {
+    // First, fetch existing students
+    const existingStudents = await this.fetchAll() || [];
     
-    await DatabaseUtility.setData(`approvedStudents/`, approvedStudents);
+    // Create a Set to remove duplicates and combine existing with new students
+    const combinedStudents = new Set([...existingStudents, ...newStudents]);
+    
+    // Save the combined unique students
+    await DatabaseUtility.setData(`approvedStudents/`, Array.from(combinedStudents));
   }
 
   // Convert the instance to a plain object for storage
@@ -22,10 +28,11 @@ export class ApprovedStudents implements ApprovedStudentsData {
   }
 
   // Static method to fetch all approved students
-  static async fetchAll(): Promise<ApprovedStudentsData[] | null> {
+  static async fetchAll(): Promise<string[] | null> {
     try {
-      const data = await DatabaseUtility.getAllData<ApprovedStudentsData>('approvedStudents');
-      return data.map(item => new ApprovedStudents(item));
+      const data = await DatabaseUtility.getAllData<string>('approvedStudents');
+      console.log("Approved students:", data);
+      return data;
     } catch (error) {
       console.error('Error fetching approved students:', error);
       return null;

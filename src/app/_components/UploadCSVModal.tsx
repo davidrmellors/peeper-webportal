@@ -78,8 +78,8 @@ const UploadCSVModal: React.FC<UploadCSVModalProps> = ({ isOpen, onClose, onUplo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg p-6 w-[500px] max-h-[80vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+      <div className="bg-white rounded-lg p-6 w-[500px] max-h-[80vh] overflow-y-auto relative">
         <h2 className="text-xl font-bold mb-4">Add Students</h2>
         
         <div className="flex mb-4 border-b">

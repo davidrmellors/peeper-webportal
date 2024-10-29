@@ -7,6 +7,7 @@ import StudentsSkeleton from '~/app/_components/StudentsSkeleton';
 import StudentActionModal from '~/app/_components/StudentActionModal';
 import GenerateReportModal from '~/app/_components/GenerateReportModal';
 import UploadCSVModal from '~/app/_components/UploadCSVModal';
+import SuccessModal from '~/app/_components/SuccessModal';
 
 const StudentsPage: React.FC = () => {
   const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string>>(new Set());
@@ -16,6 +17,7 @@ const StudentsPage: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [reportModalOpen, setReportModalOpen] = useState(false);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
 
   const { data: students, isLoading } = api.student.getAllStudents.useQuery();
   const addApprovedStudentsMutation = api.approvedStudents.addApprovedStudents.useMutation();
@@ -78,7 +80,12 @@ const StudentsPage: React.FC = () => {
 
   const handleUploadStudentNumbers = (studentNumbers: string[]) => {
     console.log('Uploaded Student Numbers:', studentNumbers);
-    addApprovedStudentsMutation.mutate({ approvedStudents: studentNumbers });
+    addApprovedStudentsMutation.mutate({ approvedStudents: studentNumbers }, {
+      onSuccess: () => {
+        setSuccessModalOpen(true);
+        setUploadModalOpen(false);
+      }
+    });
   };
 
   
@@ -179,6 +186,11 @@ const StudentsPage: React.FC = () => {
         isOpen={uploadModalOpen}
         onClose={() => setUploadModalOpen(false)}
         onUpload={handleUploadStudentNumbers}
+      />
+      <SuccessModal
+        isOpen={successModalOpen}
+        onClose={() => setSuccessModalOpen(false)}
+        message="Students have been successfully added to the approved list."
       />
     </div>
   );

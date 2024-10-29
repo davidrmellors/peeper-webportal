@@ -35,7 +35,7 @@ const ViewStudentsModal: React.FC<viewStudentsModalProps> = ({
           <div className="space-y-2">   
             <div>
                 {students.map((student_number: string, index: number) => (
-                    <p key={index} className="text-center mb-2">{student_number}</p>
+                    <p key={index} className="text-center mb-2">{student_number.toUpperCase()}</p>
                 ))}
             </div>
           </div>

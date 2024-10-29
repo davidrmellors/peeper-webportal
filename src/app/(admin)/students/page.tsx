@@ -130,6 +130,7 @@ const StudentsPage: React.FC = () => {
               const status = calculateStatus(student.hours ? student.hours : 0);
               const isSelected = selectedStudentIds.has(student.student_id);
               return (
+                
                 <tr 
                   key={student.student_id} 
                   className={`border-b cursor-pointer hover:bg-lime-50 transition-colors duration-150 ease-in-out ${isSelected ? 'bg-lime-100' : ''}`}
@@ -139,8 +140,12 @@ const StudentsPage: React.FC = () => {
                     <input
                       type="checkbox"
                       checked={isSelected}
+                      onChange={(e) => {
+                        e.stopPropagation();
+                        handleSelectStudent(student.student_id);
+                      }}
                       onClick={(e) => e.stopPropagation()}
-                      className="rounded"
+                      className="rounded accent-lime-500"
                     />
                   </td>
                   <td className="p-2">{student.studentNumber}</td>

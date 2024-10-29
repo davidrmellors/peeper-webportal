@@ -71,14 +71,7 @@ const HowToPage = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const router = useRouter();
   const { isSignedIn } = useAuth();
-
-  const handleSignIn = () => {
-    if (isSignedIn) {
-      router.push("/dashboard");
-    } else {
-      router.push("/signin");
-    }
-  };
+  
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;

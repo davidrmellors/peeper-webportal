@@ -117,7 +117,7 @@ const StudentsPage: React.FC = () => {
                   type="checkbox"
                   checked={selectAll}
                   onChange={handleSelectAll}
-                  className="rounded accent-lime-500 w-4 h-4"
+                  className="rounded accent-lime-500"
                 />
               </th>
               <th className="p-2 text-left">STUDENT NUMBER</th>

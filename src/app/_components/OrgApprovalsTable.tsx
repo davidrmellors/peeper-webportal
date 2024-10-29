@@ -105,7 +105,7 @@ const OrgApprovalsTable: React.FC = () => {
             <table className="w-full bg-white rounded-lg overflow-hidden">
               <thead className="bg-lime-500 text-white">
                 <tr>
-                  <th className="py-3 px-4 text-left">NAME ↓</th>
+                  <th className="py-3 px-4 text-left">NAME</th>
                   <th className="py-3 px-4 text-left">EMAIL</th>
                   <th className="py-3 px-4 text-left">Phone Number</th>
                   <th className="py-3 px-4 text-left">Address</th>

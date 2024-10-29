@@ -80,38 +80,38 @@ export interface OrganisationData {
                       type="checkbox"
                       checked={selectAll}
                       onChange={handleSelectAll}
-                      className="rounded accent-lime-500 w-4 h-4"
+                      className="rounded accent-lime-500"
                     />
                   </th>
-                  <th className="p-2 text-left w-1/3">NAME <ChevronDown className="inline" /></th>
-                  <th className="p-2 text-left w-1/4">EMAIL</th>
-                  <th className="p-2 text-left w-1/5">PHONE NO.</th>
-                  <th className="p-2 text-left w-1/5">STUDENTS</th>
-                  <th className="p-2 w-10">
-                    <button><MoreHorizontal /></button>
-                    </th>
+                  <th className="p-2 text-left">NAME <ChevronDown className="inline" /></th>
+                  <th className="p-2 text-left">EMAIL</th>
+                  <th className="p-2 text-left">PHONE NO.</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredOrgs.map((org) => (
-                  <tr key={org.org_id} className={`border-b ${selectedOrgs.includes(org.org_id) ? 'bg-lime-100' : ''}`}>
+                  <tr 
+                    key={org.org_id} 
+                    className={`border-b cursor-pointer hover:bg-lime-50 transition-colors duration-150 ease-in-out ${
+                      selectedOrgs.includes(org.org_id) ? 'bg-lime-100' : ''
+                    }`}
+                    onClick={() => handleSelectOrg(org.org_id)}
+                  >
                     <td className="p-2">
                       <input
                         type="checkbox"
                         checked={selectedOrgs.includes(org.org_id)}
-                        onChange={() => handleSelectOrg(org.org_id)}
-                        className="rounded accent-lime-500 w-4 h-4"
+                        onChange={(e) => {
+                          e.stopPropagation();
+                          handleSelectOrg(org.org_id);
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="rounded accent-lime-500"
                       />
                     </td>
                     <td className="p-2">{org.orgName}</td>
                     <td className="p-2">{org.orgEmail}</td>
                     <td className="p-2">{org.orgPhoneNo}</td>
-                    <td className="p-2">
-                      <button className="bg-lime-500 text-white px-4 py-1 rounded">VIEW</button>
-                    </td>
-                    <td className="p-2">
-                      <button><MoreHorizontal /></button>
-                    </td>
                   </tr>
                 ))}
               </tbody>

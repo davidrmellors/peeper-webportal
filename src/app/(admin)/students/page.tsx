@@ -2,6 +2,7 @@
 
 import React, { useCallback, useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { api } from "~/trpc/react";
 import StudentsSkeleton from '~/app/_components/StudentsSkeleton';
 import StudentActionModal from '~/app/_components/StudentActionModal';
@@ -10,6 +11,7 @@ import UploadCSVModal from '~/app/_components/UploadCSVModal';
 import SuccessModal from '~/app/_components/SuccessModal';
 
 const StudentsPage: React.FC = () => {
+  const router = useRouter();
   const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
   const [selectAll, setSelectAll] = useState(false);
@@ -84,6 +86,9 @@ const StudentsPage: React.FC = () => {
       onSuccess: () => {
         setSuccessModalOpen(true);
         setUploadModalOpen(false);
+        setTimeout(() => {
+          router.push('/dashboard');
+        }, 1500);
       }
     });
   };

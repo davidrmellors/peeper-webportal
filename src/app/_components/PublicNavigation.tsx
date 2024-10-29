@@ -52,6 +52,8 @@ const PublicNavigation = ({ isNavVisible }: { isNavVisible: boolean }) => {
             <Image
               src="/images/rubber-ducky.webp" // Use absolute path
               alt="Rubber Ducky"
+              width={32}
+              height={32}
               className="w-full h-full"
             />
           </div>

@@ -59,6 +59,8 @@ const DeveloperCard = ({
         <Image
           src={`/images/${imageName}.webp`}
           alt={`${name}'s photo`}
+          width={128} // Specify the width
+          height={128} // Specify the height
           className="h-full w-full object-cover"
         />
       </div>
@@ -71,6 +73,8 @@ const DeveloperCard = ({
             src="/images/linkedin-logo.png"
             alt="LinkedIn"
             className="h-6 w-6"
+            width={128} // Specify the width
+            height={128} // Specify the height
           />
         </a>
       </div>

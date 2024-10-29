@@ -5,13 +5,13 @@ export class ApprovedStudents implements ApprovedStudentsData {
   approvedStudents: string[];
 
   constructor(data: ApprovedStudentsData) {
-    this.approvedStudents = data.approvedStudents || [];
+    this.approvedStudents = data.approvedStudents ?? [];
   }
 
   // Save the approved students to the database
   static async save(newStudents: string[]): Promise<void> {
     // First, fetch existing students
-    const existingStudents = await this.fetchAll() || [];
+    const existingStudents = await this.fetchAll() ?? [];
     
     // Create a Set to remove duplicates and combine existing with new students
     const combinedStudents = new Set([...existingStudents, ...newStudents]);

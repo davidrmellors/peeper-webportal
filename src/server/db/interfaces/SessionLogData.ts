@@ -1,5 +1,5 @@
-import { LocationLogData } from "./LocationLogData";
-import { ViewportData } from "./ViewportData";
+import type { LocationLogData } from "./LocationLogData";
+import type { ViewportData } from "./ViewportData";
 
 export interface SessionLogData {
   sessionLog_id: string;

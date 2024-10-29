@@ -1,5 +1,5 @@
 // OrgAddress.ts
-import { OrgAddressData } from '../interfaces/OrgAddressData';
+import type { OrgAddressData } from '../interfaces/OrgAddressData';
 
 export class OrgAddress implements OrgAddressData {
   streetAddress: string;

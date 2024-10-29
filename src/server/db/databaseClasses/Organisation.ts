@@ -1,6 +1,6 @@
 // Organisation.ts
 import { DatabaseUtility } from './DatabaseUtility';
-import { OrganisationData } from '../interfaces/OrganisationData';
+import type { OrganisationData } from '../interfaces/OrganisationData';
 import { OrgAddress } from './OrgAddress';
 
 export class Organisation implements OrganisationData {

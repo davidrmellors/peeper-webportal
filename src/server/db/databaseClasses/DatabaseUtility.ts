@@ -1,12 +1,13 @@
-import { initializeApp, getApps, FirebaseApp } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
+import type { FirebaseApp } from "firebase/app";
+import type { Database } from "firebase/database";
 import {
   getDatabase,
   ref,
   get,
   set,
   update,
-  remove,
-  Database,
+  remove
 } from "firebase/database";
 
 import { firebaseConfig } from "../firebaseConfig";

@@ -1,5 +1,5 @@
-import { Student } from "~/server/db/databaseClasses/Student";
-import { Organisation } from "~/server/db/databaseClasses/Organisation";
+import type { Student } from "~/server/db/databaseClasses/Student";
+import type { Organisation } from "~/server/db/databaseClasses/Organisation";
 import JSZip from 'jszip';
 import type { LocationLog } from "~/server/db/databaseClasses/LocationLog";
 import {logoBase64} from '~/utils/logoBase64';

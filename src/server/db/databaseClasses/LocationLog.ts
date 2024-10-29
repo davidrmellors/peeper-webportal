@@ -1,4 +1,4 @@
-import { LocationLogData } from '../interfaces/LocationLogData';
+import type { LocationLogData } from '../interfaces/LocationLogData';
 
 export class LocationLog implements LocationLogData {
   timestamp: string;

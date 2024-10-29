@@ -3,8 +3,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
 import Navbar from "~/app/_components/PublicNavigation";
 import Image from "next/image";
 
@@ -86,16 +84,6 @@ const AboutPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const router = useRouter();
-  const { isSignedIn } = useAuth();
-
-  const handleSignIn = () => {
-    if (isSignedIn) {
-      router.push("/dashboard");
-    } else {
-      router.push("/signin");
-    }
-  };
 
   useEffect(() => {
     const handleScroll = () => {

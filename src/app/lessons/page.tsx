@@ -9,27 +9,6 @@ import { useAuth } from "@clerk/nextjs";
 import Navbar from "~/app/_components/PublicNavigation";
 
 
-// Reusable components
-const NavLink = ({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) => (
-  <Link
-    href={href}
-    className="group relative text-sm font-semibold text-gray-800"
-  >
-    {children}
-    <motion.div
-      className="absolute -bottom-1 left-0 h-0.5 w-0 bg-lime-500"
-      whileHover={{ width: "100%" }}
-      transition={{ duration: 0.2 }}
-    />
-  </Link>
-);
-
 const GuideCard = ({
   title,
   description,
@@ -70,16 +49,7 @@ const HowToPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const router = useRouter();
-  const { isSignedIn } = useAuth();
 
-  const handleSignIn = () => {
-    if (isSignedIn) {
-      router.push("/dashboard");
-    } else {
-      router.push("/signin");
-    }
-  };
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;

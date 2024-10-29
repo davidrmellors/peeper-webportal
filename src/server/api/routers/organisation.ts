@@ -1,7 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { Organisation } from "~/server/db/databaseClasses/Organisation";
 import {z} from 'zod';
-import type { OrganisationData } from "~/server/db/interfaces/OrganisationData";
 
 export const organisationRouter = createTRPCRouter({
   getAllOrganisations: publicProcedure

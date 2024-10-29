@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, Building2, User, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, Building2, Settings } from 'lucide-react';
 import { usePrefetch } from '~/app/api/hooks/usePrefetch';
 
 const Navbar: React.FC = () => {
@@ -58,16 +58,5 @@ const NavItem: React.FC<{ href: string; label: string; icon: React.ElementType; 
     </li>
   );
 };
-
-const NavIcon: React.FC<{ href: string; icon: React.ElementType; badge?: string }> = ({ href, icon: Icon, badge }) => (
-  <Link href={href} className="relative">
-    <Icon size={24} />
-    {badge && (
-      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-        {badge}
-      </span>
-    )}
-  </Link>
-);
 
 export default Navbar;

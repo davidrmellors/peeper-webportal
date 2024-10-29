@@ -12,7 +12,6 @@ interface PhoneDisplayProps {
 
 const PhoneDisplay: React.FC<PhoneDisplayProps> = ({ 
   videoPath, 
-  alt, 
   className = '', 
   onHover = () => {console.log('wow! spinny phone!')}, 
   hoverAnimation = true, 

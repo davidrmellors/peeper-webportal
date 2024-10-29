@@ -154,8 +154,6 @@ export default function Home() {
   const [showConfetti, setShowConfetti] = useState(true);
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const [showPlatformButtons, setShowPlatformButtons] = useState(false);
 
   const handleStartTrackingClick = () => {
@@ -195,9 +193,6 @@ export default function Home() {
     }
   };
 
-  const handleAbout = () => {
-    router.push("/about");
-  };
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({

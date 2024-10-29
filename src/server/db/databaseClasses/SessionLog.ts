@@ -1,5 +1,5 @@
 // SessionLog.ts
-import { SessionLogData } from "../interfaces/SessionLogData";
+import type { SessionLogData } from "../interfaces/SessionLogData";
 import { LocationLog } from "./LocationLog";
 import { Viewport } from "./Viewport";
 

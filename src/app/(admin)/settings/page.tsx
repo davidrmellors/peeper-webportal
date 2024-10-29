@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { getAuth, signOut } from 'firebase/auth';
+import { useClerk } from '@clerk/nextjs';
 import { toast } from 'react-hot-toast';
 
 const SettingsPage: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const auth = getAuth();
+  const { signOut } = useClerk();
 
   const handleDarkModeToggle = () => {
     setDarkMode(!darkMode);
@@ -20,9 +20,9 @@ const SettingsPage: React.FC = () => {
   const handleLogout = async () => {
     try {
       setIsLoading(true);
-      await signOut(auth);
+      await signOut();
       toast.success('Logged out successfully');
-      router.push('/sign-in');
+      router.push('/signin');
       router.refresh(); // Refresh to clear any cached data
     } catch (error) {
       console.error('Logout error:', error);

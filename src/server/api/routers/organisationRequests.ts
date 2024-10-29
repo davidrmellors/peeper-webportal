@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { OrgRequest } from "~/server/db/databaseClasses/OrgRequest";
-import { Student } from "~/server/db/databaseClasses/Student";
 import { sendApprovalEmail } from "~/server/utils/sendgrid";
 import { ApprovalStatus } from "~/server/db/interfaces/enums";
 

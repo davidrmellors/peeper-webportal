@@ -1,7 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { ApprovedStudents } from "~/server/db/databaseClasses/ApprovedStudents";
 import {z} from 'zod';
-import type { ApprovedStudentsData } from "~/server/db/interfaces/ApprovedStudentsData";
 
 export const approvedStudentsRouter = createTRPCRouter({
     fetchAllApprovedStudents: publicProcedure

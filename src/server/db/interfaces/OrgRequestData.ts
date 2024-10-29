@@ -1,4 +1,4 @@
-import { OrgAddressData } from "./OrgAddressData";
+import type { OrgAddressData } from "./OrgAddressData";
 
 export interface OrgRequestData {
   request_id: string;

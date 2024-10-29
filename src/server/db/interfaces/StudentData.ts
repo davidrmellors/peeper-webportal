@@ -1,4 +1,4 @@
-import { SessionLogData } from "./SessionLogData";
+import type { SessionLogData } from "./SessionLogData";
 
 export interface StudentData {
   student_id: string;

@@ -1,7 +1,7 @@
 // This is the student class
 import { DatabaseUtility } from "./DatabaseUtility";
-import { StudentData } from "../interfaces/StudentData";
-import { SessionLogData } from "../interfaces/SessionLogData";
+import type { StudentData } from "../interfaces/StudentData";
+import type { SessionLogData } from "../interfaces/SessionLogData";
 import { SessionLog } from "./SessionLog";
 
 export class Student implements StudentData {

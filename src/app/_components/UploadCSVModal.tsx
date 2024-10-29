@@ -53,7 +53,7 @@ const UploadCSVModal: React.FC<UploadCSVModalProps> = ({ isOpen, onClose, onUplo
       complete: (results) => {
         const studentNumbers = new Set<string>();
         results.data.forEach((row: unknown) => {
-          const studentNumber = ((row as string[])[0] || '').toUpperCase();
+          const studentNumber = ((row as string[])[0] ?? '').toUpperCase();
           if (validateStudentNumber(studentNumber)) {
             studentNumbers.add(studentNumber);
           }

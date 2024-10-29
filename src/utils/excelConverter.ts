@@ -3,15 +3,6 @@ import type { Student } from "~/server/db/databaseClasses/Student";
 import type { Organisation } from "~/server/db/databaseClasses/Organisation";
 import type { LocationLog } from "~/server/db/databaseClasses/LocationLog";
 
-interface LocationEntry {
-  Date: string;
-  StartTime: string;
-  EndTime: string;
-  Hours: number;
-  Organisation: string;
-  Address: string;
-}
-
 type WorksheetData = (string | number)[][];
 
 export async function generateExcelWorkbook(

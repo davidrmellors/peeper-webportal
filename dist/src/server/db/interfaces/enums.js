@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// @ts-nocheck
 export var AdminType;
 (function (AdminType) {
     AdminType[AdminType["SuperAdmin"] = 0] = "SuperAdmin";

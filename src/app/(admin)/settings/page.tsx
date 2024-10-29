@@ -3,21 +3,34 @@
 import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { getAuth, signOut } from 'firebase/auth';
+import { toast } from 'react-hot-toast';
 
 const SettingsPage: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const auth = getAuth();
 
   const handleDarkModeToggle = () => {
     setDarkMode(!darkMode);
     // Implement dark mode logic here
   };
 
-  const handleLogout = () => {
-    // Implement logout logic here
-    router.push('/sign-in');
+  const handleLogout = async () => {
+    try {
+      setIsLoading(true);
+      await signOut(auth);
+      toast.success('Logged out successfully');
+      router.push('/sign-in');
+      router.refresh(); // Refresh to clear any cached data
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error('Failed to log out');
+    } finally {
+      setIsLoading(false);
+    }
   };
-
 
   return (
     <div className="space-y-6">
@@ -56,9 +69,11 @@ const SettingsPage: React.FC = () => {
 
       <button
         onClick={handleLogout}
-        className="w-full py-3 bg-red-500 text-white rounded-lg font-bold"
+        disabled={isLoading}
+        className="w-full py-3 bg-red-500 text-white rounded-lg font-bold 
+          hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        LOG OUT
+        {isLoading ? 'LOGGING OUT...' : 'LOG OUT'}
       </button>
     </div>
   );

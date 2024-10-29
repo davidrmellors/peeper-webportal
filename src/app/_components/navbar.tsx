@@ -26,14 +26,8 @@ const Navbar: React.FC = () => {
           <NavItem href="/dashboard" label="DASHBOARD" icon={LayoutDashboard} active={activeItem === '/dashboard'} />
           <NavItem href="/students" label="STUDENTS" icon={Users} active={activeItem === '/students'} />
           <NavItem href="/organisations" label="ORGANISATIONS" icon={Building2} active={activeItem === '/organisations'} />
+          <NavItem href="/settings" label="SETTINGS" icon={Settings} active={activeItem === '/settings'} />
         </ul>
-      </div>
-      
-      <div className="p-4 border-t border-gray-200">
-        <div className="flex justify-between">
-          <NavIcon href="/profile" icon={User} />
-          <NavIcon href="/settings" icon={Settings} />
-        </div>
       </div>
     </nav>
   );

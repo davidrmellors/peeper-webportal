@@ -33,39 +33,21 @@ const SettingsPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-4xl font-bold">SETTINGS</h1>
-
-      <section className="space-y-4">
-        <h2 className="text-2xl font-bold">Personalisation</h2>
-        <div className="flex items-center justify-between">
-          <span>Dark Mode</span>
-          <button
-            onClick={handleDarkModeToggle}
-            className={`w-12 h-6 rounded-full p-1 ${
-              darkMode ? 'bg-lime-500' : 'bg-gray-300'
-            }`}
-          >
-            <div
-              className={`w-4 h-4 rounded-full bg-white transform transition-transform ${
-                darkMode ? 'translate-x-6' : ''
-              }`}
-            />
-          </button>
-        </div>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="text-2xl font-bold">Help Centre</h2>
-        <div className="space-y-2">
-          {['Terms and Conditions', 'Privacy Policy', 'Report a Bug'].map((item) => (
-            <div key={item} className="flex items-center justify-between p-2 bg-white rounded-lg">
-              <span>{item}</span>
-              <ChevronRight />
-            </div>
-          ))}
-        </div>
-      </section>
+    <div className="flex flex-col h-full justify-between">
+      <div className="space-y-6">
+        <h1 className="text-4xl font-bold">SETTINGS</h1>
+        <section className="space-y-4">
+          <h2 className="text-2xl font-bold">Help Centre</h2>
+          <div className="space-y-2">
+            {['Terms and Conditions', 'Privacy Policy', 'Report a Bug'].map((item) => (
+              <div key={item} className="flex items-center justify-between p-2 bg-white rounded-lg">
+                <span>{item}</span>
+                <ChevronRight />
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
 
       <button
         onClick={handleLogout}

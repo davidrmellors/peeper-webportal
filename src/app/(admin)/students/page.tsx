@@ -2,14 +2,17 @@
 
 import React, { useCallback, useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { api } from "~/trpc/react";
 import StudentsSkeleton from '~/app/_components/StudentsSkeleton';
 import StudentActionModal from '~/app/_components/StudentActionModal';
 import GenerateReportModal from '~/app/_components/GenerateReportModal';
 import UploadCSVModal from '~/app/_components/UploadCSVModal';
 import SuccessModal from '~/app/_components/SuccessModal';
+import ConfirmModal from '~/app/_components/ConfirmModal';
 
 const StudentsPage: React.FC = () => {
+  const router = useRouter();
   const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
   const [selectAll, setSelectAll] = useState(false);
@@ -18,9 +21,17 @@ const StudentsPage: React.FC = () => {
   const [reportModalOpen, setReportModalOpen] = useState(false);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false);
 
   const { data: students, isLoading } = api.student.getAllStudents.useQuery();
   const addApprovedStudentsMutation = api.approvedStudents.addApprovedStudents.useMutation();
+  const deleteStudentsMutation = api.student.deleteStudents.useMutation({
+    onSuccess: () => {
+      setDeleteConfirmModalOpen(false);
+      setModalOpen(false);
+      setSelectedStudentIds(new Set());
+    },
+  });
 
   const filteredStudents = useMemo(() => {
     return students?.filter(student => 
@@ -74,8 +85,11 @@ const StudentsPage: React.FC = () => {
   };
 
   const handleDelete = () => {
-    // Implement delete functionality
-    setModalOpen(false);
+    setDeleteConfirmModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    deleteStudentsMutation.mutate(Array.from(selectedStudentIds));
   };
 
   const handleUploadStudentNumbers = (studentNumbers: string[]) => {
@@ -84,6 +98,9 @@ const StudentsPage: React.FC = () => {
       onSuccess: () => {
         setSuccessModalOpen(true);
         setUploadModalOpen(false);
+        setTimeout(() => {
+          router.push('/dashboard');
+        }, 1500);
       }
     });
   };
@@ -191,6 +208,13 @@ const StudentsPage: React.FC = () => {
         isOpen={successModalOpen}
         onClose={() => setSuccessModalOpen(false)}
         message="Students have been successfully added to the approved list."
+      />
+      <ConfirmModal
+        isOpen={deleteConfirmModalOpen}
+        onClose={() => setDeleteConfirmModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Students"
+        message={`Are you sure you want to delete ${selectedStudentIds.size} student${selectedStudentIds.size === 1 ? '' : 's'}?`}
       />
     </div>
   );

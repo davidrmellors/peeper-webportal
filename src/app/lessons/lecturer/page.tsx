@@ -4,6 +4,19 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Navbar from "~/app/_components/PublicNavigation";
 
+/**
+ * Lecturer Lessons Page Component
+ * 
+ * This component renders an interactive lesson interface for lecturers/administrators.
+ * Features:
+ * - Color palette definition for UI elements
+ * - Structured lesson content with emoji icons
+ * - Comprehensive guides for:
+ *   - Getting started with admin access
+ *   - Managing student records
+ *   - Organization approval process
+ *   - Report generation functionality
+ */
 
 const colors = [
   "#334FD7", // royal blue

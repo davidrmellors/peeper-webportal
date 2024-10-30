@@ -1,3 +1,14 @@
+/**
+ * Email Notification Script
+ * 
+ * Automated script for sending email notifications about pending organization requests.
+ * Features:
+ * - Firebase integration for data fetching
+ * - SendGrid email service integration
+ * - Type definitions for organization requests and admin users
+ * - Environment variable validation
+ */
+
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get } from "firebase/database";
 import sgMail from "@sendgrid/mail";

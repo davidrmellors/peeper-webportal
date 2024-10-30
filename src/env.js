@@ -1,3 +1,16 @@
+/**
+ * Environment Configuration
+ * 
+ * Manages and validates environment variables using Zod.
+ * Includes:
+ * - Firebase configuration
+ * - Clerk authentication keys
+ * - SendGrid API configuration
+ * - Environment-specific settings
+ * 
+ * Uses t3-oss/env-nextjs for type-safe environment variables
+ */
+
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 

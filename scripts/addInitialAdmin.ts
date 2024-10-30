@@ -1,3 +1,14 @@
+/**
+ * Initial Admin Setup Script
+ * 
+ * Creates the first admin user in the Firebase database.
+ * Features:
+ * - Firebase initialization
+ * - Admin type enumeration
+ * - Default admin configuration
+ * - Error handling for setup process
+ */
+
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set } from "firebase/database";
 import dotenv from "dotenv";

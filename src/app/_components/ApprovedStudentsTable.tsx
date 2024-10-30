@@ -5,6 +5,17 @@ import ApprovedStudentsTableSkeleton from './ApprovedStudentsTableSkeleton';
 import UploadCSVModal from './UploadCSVModal';
 import SuccessModal from './SuccessModal';
 
+/**
+ * Approved Students Table Component
+ * 
+ * Displays and manages the list of approved students.
+ * Features:
+ * - CSV upload functionality for bulk student addition
+ * - Real-time data updates using tRPC
+ * - Success notifications
+ * - Loading state handling
+ * - Responsive table design
+ */
 const ApprovedStudentsTable: React.FC = () => {
   const router = useRouter();
   const [uploadModalOpen, setUploadModalOpen] = useState(false);

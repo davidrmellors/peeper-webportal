@@ -1,3 +1,18 @@
+/**
+ * Student Lessons Page Component
+ * 
+ * Provides an interactive learning interface for students using the platform.
+ * Key features:
+ * - Consistent color scheme with main application
+ * - Interactive sidebar navigation
+ * - Progressive learning modules covering:
+ *   - Account setup and onboarding
+ *   - Hour tracking process
+ *   - Project management
+ *   - Verification workflow
+ * 
+ * Uses Framer Motion for smooth animations and transitions
+ */
 "use client";
 
 import { motion } from "framer-motion";

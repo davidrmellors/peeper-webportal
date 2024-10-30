@@ -18,7 +18,6 @@ const colors = [
 ];
 
 
-// Lesson content data
 const lessons = [
   {
     id: 1,
@@ -29,61 +28,68 @@ const lessons = [
       <p class="mb-4">Let's get you started with the basics of using our platform...</p>
       <h3 class="text-xl font-semibold mb-3">First Steps:</h3>
       <ul class="list-disc pl-6 mb-4">
-        <li>Create your account</li>
-        <li>Complete your profile</li>
-        <li>Connect with your organization</li>
+        <li>Sign in with your approved Admin Account by entering your email address</li>
+        <li>Check your email for a verification code and enter it to confirm your account</li>
+        <li>Navigate to the Dashboard</li>
       </ul>
     `
   },
   {
     id: 2,
-    title: "Tracking Hours",
-    emoji: "⏱️",
+    title: "Managing Students",
+    emoji: "👨‍🎓",
     content: `
-      <h2 class="text-2xl font-bold mb-4">How to Track Your Service Hours</h2>
-      <p class="mb-4">Recording your community service hours is simple and straightforward...</p>
-      <h3 class="text-xl font-semibold mb-3">Steps to log hours:</h3>
+      <h2 class="text-2xl font-bold mb-4">How to Manage Students</h2>
+      <p class="mb-4">Adding and managing students is simple and straightforward...</p>
+      <h3 class="text-xl font-semibold mb-3">Steps to add students:</h3>
       <ol class="list-decimal pl-6 mb-4">
         <li>Navigate to the Dashboard</li>
-        <li>Click "Log Hours"</li>
-        <li>Fill in the required information</li>
-        <li>Submit for approval</li>
+        <li>Click "Manage Students"</li>
+        <li>Add new students by entering their email address or uploading a CSV file with their student numbers</li>
+        <li>Edit or delete students by clicking the corresponding button</li>
       </ol>
     `
   },
   {
     id: 3,
-    title: "Managing Projects",
-    emoji: "📋",
+    title: "Managing Organisations",
+    emoji: "🏢",
     content: `
-      <h2 class="text-2xl font-bold mb-4">Creating and Managing Projects</h2>
-      <p class="mb-4">Learn how to organize your service activities into projects...</p>
-      <h3 class="text-xl font-semibold mb-3">Project Management Features:</h3>
+      <h2 class="text-2xl font-bold mb-4">Creating and Managing Organisations</h2>
+      <p class="mb-4">Learn how to manage organisations...</p>
+      <h3 class="text-xl font-semibold mb-3">Steps to add organisations:</h3>
       <ul class="list-disc pl-6 mb-4">
-        <li>Create new projects</li>
-        <li>Set goals and milestones</li>
-        <li>Track team progress</li>
-        <li>Generate reports</li>
+        <li>Navigate to the Dashboard</li>
+        <li>Click "Manage Organisations"</li>
+        <li>You will see a list of organisations as well as organisation requests</li>
+        <li>Click "View" to view the organisation details</li>
+        <li>Click "Approve" to approve the organisation request</li>
+        <li>Click "Reject" to reject the organisation request</li>
+        <li>This will add the organisation to the list of organisations and send an email to the students who applied</li>
       </ul>
     `
   },
   {
     id: 4,
-    title: "Verification Process",
-    emoji: "✅",
+    title: "Generating Reports",
+    emoji: "📊",
     content: `
       <h2 class="text-2xl font-bold mb-4">Understanding the Verification Process</h2>
-      <p class="mb-4">Learn about how hours are verified and approved...</p>
-      <h3 class="text-xl font-semibold mb-3">Verification Steps:</h3>
+      <p class="mb-4">Learn how to generate reports...</p>
+      <h3 class="text-xl font-semibold mb-3">Steps to generate reports:</h3>
       <ol class="list-decimal pl-6 mb-4">
-        <li>Submit your hours</li>
-        <li>Supervisor review</li>
-        <li>Approval process</li>
-        <li>Confirmation and recording</li>
+        <li>Select the students you want to generate a report for</li>
+        <li>Click the "Manage" button</li>
+        <li>Click the "Generate Report" button</li>
+        <li>Select the file type you want to generate the report in</li>
+        <li>Click the "Generate" button</li>
+        <li>This will generate a report for the selected students and download it to your device</li>
+        <li>NB: The report generation may take a while depending on the number of students</li>
       </ol>
     `
   }
 ];
+
 
 const LessonSidebar = ({ 
   activeLesson, 

@@ -2,7 +2,6 @@
 
 import React, { useCallback, useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { api } from "~/trpc/react";
 import StudentsSkeleton from '~/app/_components/StudentsSkeleton';
 import StudentActionModal from '~/app/_components/StudentActionModal';
@@ -10,7 +9,6 @@ import GenerateReportModal from '~/app/_components/GenerateReportModal';
 import ConfirmModal from '~/app/_components/ConfirmModal';
 
 const StudentsPage: React.FC = () => {
-  const router = useRouter();
   const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
   const [selectAll, setSelectAll] = useState(false);
@@ -27,8 +25,8 @@ const StudentsPage: React.FC = () => {
       setDeleteConfirmModalOpen(false);
       setModalOpen(false);
       setSelectedStudentIds(new Set());
-      utils.student.getAllStudents.invalidate();
-      utils.approvedStudents.fetchAllApprovedStudents.invalidate();
+      void utils.student.getAllStudents.invalidate();
+      void utils.approvedStudents.fetchAllApprovedStudents.invalidate();
     },
   });
 
@@ -93,10 +91,15 @@ const StudentsPage: React.FC = () => {
     const selectedStudents = filteredStudents.filter(s => selectedStudentIds.has(s.student_id));
     const studentNumbers = selectedStudents.map(s => s.studentNumber);
     
-    await Promise.all([
-      deleteStudentsMutation.mutate(Array.from(selectedStudentIds)),
-      removeApprovedStudentsMutation.mutate(studentNumbers)
-    ]);
+    try {
+      await Promise.all([
+        deleteStudentsMutation.mutate(Array.from(selectedStudentIds)),
+        removeApprovedStudentsMutation.mutate(studentNumbers)
+      ]);
+    } catch (error) {
+      console.error('Error deleting students:', error);
+      // Handle error appropriately
+    }
   };
 
   return (

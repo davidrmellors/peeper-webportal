@@ -12,18 +12,13 @@ const SettingsPage: React.FC = () => {
   const router = useRouter();
   const { signOut } = useClerk();
 
-  const handleDarkModeToggle = () => {
-    setDarkMode(!darkMode);
-    // Implement dark mode logic here
-  };
-
   const handleLogout = async () => {
     try {
       setIsLoading(true);
       await signOut();
       toast.success('Logged out successfully');
-      router.push('/signin');
-      router.refresh(); // Refresh to clear any cached data
+      void router.push('/signin');
+      void router.refresh(); // Refresh to clear any cached data
     } catch (error) {
       console.error('Logout error:', error);
       toast.error('Failed to log out');
@@ -50,7 +45,7 @@ const SettingsPage: React.FC = () => {
       </div>
 
       <button
-        onClick={handleLogout}
+        onClick={() => void handleLogout()}
         disabled={isLoading}
         className="w-full py-3 bg-red-500 text-white rounded-lg font-bold 
           hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"

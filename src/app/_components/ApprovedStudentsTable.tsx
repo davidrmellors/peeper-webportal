@@ -31,9 +31,9 @@ const ApprovedStudentsTable: React.FC = () => {
       onSuccess: () => {
         setSuccessModalOpen(true);
         setUploadModalOpen(false);
-        utils.approvedStudents.fetchAllApprovedStudents.invalidate();
+        void utils.approvedStudents.fetchAllApprovedStudents.invalidate();
         setTimeout(() => {
-          router.refresh();
+          void router.refresh();
         }, 1500);
       }
     });

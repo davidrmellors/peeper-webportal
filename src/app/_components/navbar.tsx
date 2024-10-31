@@ -21,11 +21,11 @@ const Navbar = () => {
     { href: '/settings', label: 'SETTINGS', icon: <Settings size={20} /> },
   ];
 
-  const handleSignOut = () => {
-    signOut(() => router.push('/'));
+  const handleSignOut = async () => {
+    await signOut(() => router.push('/'));
   };
 
-  const currentPage = links.find(link => pathname === link.href)?.label || 'DASHBOARD';
+  const currentPage = links.find(link => pathname === link.href)?.label ?? 'DASHBOARD';
 
   return (
     <>

@@ -23,5 +23,17 @@ export const approvedStudentsRouter = createTRPCRouter({
         console.error('Error saving approved students:', error);
         throw new Error('Failed to save approved students'); // Throw an error if saving fails
       }
-    })
+    }),
+
+    removeApprovedStudents: publicProcedure
+    .input(z.array(z.string()))
+    .mutation(async ({ input: studentNumbers }) => {
+      try {
+        await ApprovedStudents.removeStudents(studentNumbers);
+        return { success: true };
+      } catch (error) {
+        console.error('Error removing approved students:', error);
+        throw new Error('Failed to remove approved students');
+      }
+    }),
 });

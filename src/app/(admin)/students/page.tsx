@@ -7,8 +7,7 @@ import { api } from "~/trpc/react";
 import StudentsSkeleton from '~/app/_components/StudentsSkeleton';
 import StudentActionModal from '~/app/_components/StudentActionModal';
 import GenerateReportModal from '~/app/_components/GenerateReportModal';
-import UploadCSVModal from '~/app/_components/UploadCSVModal';
-import SuccessModal from '~/app/_components/SuccessModal';
+import ConfirmModal from '~/app/_components/ConfirmModal';
 
 const StudentsPage: React.FC = () => {
   const router = useRouter();
@@ -18,11 +17,22 @@ const StudentsPage: React.FC = () => {
   
   const [modalOpen, setModalOpen] = useState(false);
   const [reportModalOpen, setReportModalOpen] = useState(false);
-  const [uploadModalOpen, setUploadModalOpen] = useState(false);
-  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false);
 
   const { data: students, isLoading } = api.student.getAllStudents.useQuery();
-  const addApprovedStudentsMutation = api.approvedStudents.addApprovedStudents.useMutation();
+  const utils = api.useUtils();
+
+  const deleteStudentsMutation = api.student.deleteStudents.useMutation({
+    onSuccess: () => {
+      setDeleteConfirmModalOpen(false);
+      setModalOpen(false);
+      setSelectedStudentIds(new Set());
+      void utils.student.getAllStudents.invalidate();
+      void utils.approvedStudents.fetchAllApprovedStudents.invalidate();
+    },
+  });
+
+  const removeApprovedStudentsMutation = api.approvedStudents.removeApprovedStudents.useMutation();
 
   const filteredStudents = useMemo(() => {
     return students?.filter(student => 
@@ -76,24 +86,23 @@ const StudentsPage: React.FC = () => {
   };
 
   const handleDelete = () => {
-    // Implement delete functionality
-    setModalOpen(false);
+    setDeleteConfirmModalOpen(true);
   };
 
-  const handleUploadStudentNumbers = (studentNumbers: string[]) => {
-    console.log('Uploaded Student Numbers:', studentNumbers);
-    addApprovedStudentsMutation.mutate({ approvedStudents: studentNumbers }, {
-      onSuccess: () => {
-        setSuccessModalOpen(true);
-        setUploadModalOpen(false);
-        setTimeout(() => {
-          router.push('/dashboard');
-        }, 1500);
-      }
-    });
+  const handleConfirmDelete = async () => {
+    const selectedStudents = filteredStudents.filter(s => selectedStudentIds.has(s.student_id));
+    const studentNumbers = selectedStudents.map(s => s.studentNumber);
+    
+    try {
+      await Promise.all([
+        deleteStudentsMutation.mutate(Array.from(selectedStudentIds)),
+        removeApprovedStudentsMutation.mutate(studentNumbers)
+      ]);
+    } catch (error) {
+      console.error('Error deleting students:', error);
+      // Handle error appropriately
+    }
   };
-
-  
 
   return (
     <div className="space-y-4">
@@ -111,12 +120,9 @@ const StudentsPage: React.FC = () => {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
         <div className='flex space-x-4'>
-        <button onClick={() => setUploadModalOpen(true)} className="bg-lime-500 text-white px-4 py-2 rounded-lg flex items-center">
-          ADD STUDENTS
-        </button>
-        <button onClick={handleMoreClick} className="bg-lime-500 text-white px-4 py-2 rounded-lg flex items-center">
-          MANAGE <span className="ml-2 bg-white text-lime-500 rounded-full w-5 h-5 flex items-center justify-center">{selectedStudentIds.size}</span>
-        </button>
+          <button onClick={handleMoreClick} className="bg-lime-500 text-white px-4 py-2 rounded-lg flex items-center">
+            MANAGE <span className="ml-2 bg-white text-lime-500 rounded-full w-5 h-5 flex items-center justify-center">{selectedStudentIds.size}</span>
+          </button>
         </div>
       </div>
     {isLoading ? <StudentsSkeleton /> : (
@@ -187,15 +193,12 @@ const StudentsPage: React.FC = () => {
         onClose={() => setReportModalOpen(false)}
         onGenerate={handleGenerateReportSubmit}
       />
-      <UploadCSVModal
-        isOpen={uploadModalOpen}
-        onClose={() => setUploadModalOpen(false)}
-        onUpload={handleUploadStudentNumbers}
-      />
-      <SuccessModal
-        isOpen={successModalOpen}
-        onClose={() => setSuccessModalOpen(false)}
-        message="Students have been successfully added to the approved list."
+      <ConfirmModal
+        isOpen={deleteConfirmModalOpen}
+        onClose={() => setDeleteConfirmModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Students"
+        message={`Are you sure you want to delete ${selectedStudentIds.size} student${selectedStudentIds.size === 1 ? '' : 's'}?`}
       />
     </div>
   );

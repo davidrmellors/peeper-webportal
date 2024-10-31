@@ -39,5 +39,11 @@ export class ApprovedStudents implements ApprovedStudentsData {
     }
   }
 
-  
+  static async removeStudents(studentNumbers: string[]): Promise<void> {
+    const existingStudents = await this.fetchAll() ?? [];
+    const updatedStudents = existingStudents.filter(
+      student => !studentNumbers.includes(student)
+    );
+    await DatabaseUtility.setData('approvedStudents/', updatedStudents);
+  }
 }

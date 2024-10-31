@@ -43,4 +43,10 @@ export const studentRouter = createTRPCRouter({
       // Convert buffer to base64
       return Buffer.from(buffer as Buffer).toString('base64');
     }),
+
+    deleteStudents: publicProcedure
+    .input(z.array(z.string()))
+    .mutation(async ({ input: studentIds }) => {
+      await DatabaseUtility.deleteDataBatch('students', studentIds);
+    }),
 });

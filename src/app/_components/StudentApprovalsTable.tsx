@@ -12,6 +12,16 @@ interface StudentApprovalsTableProps {
   onDeny: (studentId: string) => void;
 }
 
+/**
+ * Student Approvals Table Component
+ * 
+ * Reusable table component for managing student approval requests.
+ * Features:
+ * - TypeScript interfaces for props and student data
+ * - Approve/Deny functionality
+ * - Responsive table design
+ * - Consistent styling with main application theme
+ */
 const StudentApprovalsTable: React.FC<StudentApprovalsTableProps> = ({ students, onApprove, onDeny }) => {
   return (
     <div className="overflow-x-auto">

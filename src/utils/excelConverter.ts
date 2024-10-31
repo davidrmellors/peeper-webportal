@@ -69,31 +69,28 @@ export async function generateExcelWorkbook(
 function calculateAverageSpeed(locationLogs: LocationLog[]): number {
   if (locationLogs.length < 2) return 0;
   
-  let totalSpeed = 0;
-  let count = 0;
-
+  // Calculate total distance in kilometers
+  let totalDistance = 0;
   for (let i = 1; i < locationLogs.length; i++) {
     const prevLog = locationLogs[i - 1];
     const currentLog = locationLogs[i];
     
-    const distance = calculateDistance(
+    totalDistance += calculateDistance(
       prevLog?.latitude ?? 0,
       prevLog?.longitude ?? 0,
       currentLog?.latitude ?? 0,
       currentLog?.longitude ?? 0
     );
-    
-    const timeDiff = (new Date(currentLog?.timestamp ?? "").getTime() - 
-                     new Date(prevLog?.timestamp ?? "").getTime()) / (1000 * 60 * 60);
-    
-    if (timeDiff > 0) {
-      const speed = distance / timeDiff;
-      totalSpeed += speed;
-      count++;
-    }
   }
-
-  return count > 0 ? totalSpeed / count : 0;
+  
+  // Calculate total time in hours
+  const totalTimeHours = (
+    new Date(locationLogs[locationLogs.length - 1]?.timestamp ?? "").getTime() - 
+    new Date(locationLogs[0]?.timestamp ?? "").getTime()
+  ) / (1000 * 60 * 60);
+  
+  // Calculate overall average speed
+  return totalTimeHours > 0 ? totalDistance / totalTimeHours : 0;
 }
 
 function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {

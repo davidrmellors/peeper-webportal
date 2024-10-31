@@ -89,4 +89,17 @@ export class DatabaseUtility {
       throw error;
     }
   }
+
+  static async deleteDataBatch(path: string, studentIds: string[]): Promise<void> {
+    try {
+      const updates = studentIds.reduce((acc, id) => ({
+        ...acc,
+        [`${path}/${id}`]: null
+      }), {});
+      await update(this.getRef(path).root, updates);
+    } catch (error) {
+      console.error(`Error deleting data at ${path}:`, error);
+      throw error;
+    }
+  }
 }

@@ -100,53 +100,59 @@ const OrgApprovalsTable: React.FC = () => {
   return (
     <>
       {isLoading ? <OrgRequestSkeleton /> : (
-        <div className="overflow-x-auto">
-          {orgRequests.length > 0 ? (
-            <table className="w-full bg-white rounded-lg overflow-hidden">
-              <thead className="bg-lime-500 text-white">
-                <tr>
-                  <th className="py-3 px-4 text-left">NAME</th>
-                  <th className="py-3 px-4 text-left">EMAIL</th>
-                  <th className="py-3 px-4 text-left">Phone Number</th>
-                  <th className="py-3 px-4 text-left">Address</th>
-                  <th className="py-3 px-4 text-left">SUBMITTED BY</th>
-                  <th className="py-3 px-4 text-center">STATUS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orgRequests.map((orgReq) => (
-                  <tr key={orgReq.request_id} className="border-b border-gray-200">
-                    <td className="py-3 px-4">{orgReq.name ? orgReq.name : "N/A"}</td>
-                    <td className="py-3 px-4">{orgReq.email ? orgReq.email : "N/A"}</td>
-                    <td className="py-3 px-4">{orgReq.phoneNo ? orgReq.phoneNo : "N/A"}</td>
-                    <td className="py-3 px-4">{`${orgReq.orgAddress.suburb}, ${orgReq.orgAddress.city}, ${orgReq.orgAddress.province}, ${orgReq.orgAddress.postalCode}`}</td>
-                    <td className='py-3 px-3'><button onClick={handleViewMore} className="bg-lime-500 text-white px-4 py-1 rounded">VIEW</button></td>
-                    <td className="py-3 px-4">
-                      <div className="flex justify-end space-x-2">
-                        <button
-                          onClick={() => handleDeny(orgReq.request_id)}
-                          className="bg-red-500 text-white px-4 py-2 rounded font-bold"
-                        >
-                          DENY
-                        </button>
-                        <button
-                          onClick={() => handleApprove(orgReq.request_id)}
-                          className="bg-blue-500 text-white px-4 py-2 rounded font-bold"
-                        >
-                          APPROVE
-                        </button>
-                      </div>
-                    </td>
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-bold text-black">ORGANISATION REQUESTS</h2>
+          </div>
+
+          <div className="overflow-x-auto">
+            {orgRequests.length > 0 ? (
+              <table className="w-full bg-white rounded-lg overflow-hidden">
+                <thead className="bg-lime-500 text-white">
+                  <tr>
+                    <th className="py-3 px-4 text-left">NAME</th>
+                    <th className="py-3 px-4 text-left">EMAIL</th>
+                    <th className="py-3 px-4 text-left">Phone Number</th>
+                    <th className="py-3 px-4 text-left">Address</th>
+                    <th className="py-3 px-4 text-left">SUBMITTED BY</th>
+                    <th className="py-3 px-4 text-center">STATUS</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <div className="text-center py-4">
-              <p className="text-gray-600">No pending organization requests found.</p>
-              <p className="text-sm text-gray-500 mt-2">New requests will appear here when organizations apply.</p>
-            </div>
-          )}
+                </thead>
+                <tbody>
+                  {orgRequests.map((orgReq) => (
+                    <tr key={orgReq.request_id} className="border-b border-gray-200">
+                      <td className="py-3 px-4">{orgReq.name ? orgReq.name : "N/A"}</td>
+                      <td className="py-3 px-4">{orgReq.email ? orgReq.email : "N/A"}</td>
+                      <td className="py-3 px-4">{orgReq.phoneNo ? orgReq.phoneNo : "N/A"}</td>
+                      <td className="py-3 px-4">{`${orgReq.orgAddress.suburb}, ${orgReq.orgAddress.city}, ${orgReq.orgAddress.province}, ${orgReq.orgAddress.postalCode}`}</td>
+                      <td className='py-3 px-3'><button onClick={handleViewMore} className="bg-lime-500 text-white px-4 py-1 rounded">VIEW</button></td>
+                      <td className="py-3 px-4">
+                        <div className="flex justify-end space-x-2">
+                          <button
+                            onClick={() => handleDeny(orgReq.request_id)}
+                            className="bg-red-500 text-white px-4 py-2 rounded font-bold"
+                          >
+                            DENY
+                          </button>
+                          <button
+                            onClick={() => handleApprove(orgReq.request_id)}
+                            className="bg-blue-500 text-white px-4 py-2 rounded font-bold"
+                          >
+                            APPROVE
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="text-center py-4">
+                <p className="text-gray-600">No pending organization requests found.</p>
+                <p className="text-sm text-gray-500 mt-2">New requests will appear here when organizations apply.</p>
+              </div>
+            )}
+          </div>
         </div>
       )}
       <OrgReqStatusModal isOpen={modalOpen} approvalStatus={orgRequestApproved} onClose={() => setModalOpen(false)}/>

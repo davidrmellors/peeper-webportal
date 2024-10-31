@@ -132,9 +132,9 @@ export default function SignIn() {
   );
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden px-4 sm:px-6">
-      <Navbar isNavVisible={isNavVisible} />
-      
+    <div className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden">
+      <Navbar isNavVisible={isNavVisible} /> {/* Add Navbar component here */}
+      {/* Background grid pattern */}
       <motion.div
         className="absolute inset-0 opacity-[0.03]"
         style={{
@@ -148,19 +148,19 @@ export default function SignIn() {
         transition={{ type: "spring", stiffness: 75, damping: 15 }}
       />
 
-      <div className="relative z-10 w-full max-w-md">
+      <div className="relative z-10 w-full max-w-md px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2">
+          <h1 className="text-4xl font-bold mb-2">
             <span className="bg-gradient-to-r from-lime-500 to-lime-700 bg-clip-text text-transparent">
               Welcome Back
             </span>
           </h1>
-          <p className="text-gray-600 text-sm sm:text-base">
+          <p className="text-gray-600">
             {pendingVerification 
               ? "Check your email for the verification code" 
               : "Sign in to continue tracking your impact"}
@@ -173,14 +173,14 @@ export default function SignIn() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
             onSubmit={handleSendVerification}
-            className="space-y-6 px-4 sm:px-0"
+            className="space-y-6"
           >
             <div className="relative">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 sm:px-6 py-3 sm:py-4 rounded-lg border-2 border-lime-500 bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:border-lime-600 transition-colors text-sm sm:text-base"
+                className="w-full px-6 py-4 rounded-lg border-2 border-lime-500 bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:border-lime-600 transition-colors"
                 placeholder="Enter your email..."
                 required
               />
@@ -188,7 +188,7 @@ export default function SignIn() {
             </div>
             <motion.button
               type="submit"
-              className="w-full bg-gradient-to-r from-lime-500 to-lime-700 text-white py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-lg shadow-lg hover:from-lime-600 hover:to-lime-800 transition-all"
+              className="w-full bg-gradient-to-r from-lime-500 to-lime-700 text-white py-4 rounded-lg font-semibold text-lg shadow-lg hover:from-lime-600 hover:to-lime-800 transition-all"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -201,7 +201,7 @@ export default function SignIn() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
             onSubmit={handleVerify}
-            className="space-y-6 px-4 sm:px-0"
+            className="space-y-6"
           >
             <div className="flex justify-center my-8">
               <InputOTP 
@@ -210,21 +210,34 @@ export default function SignIn() {
                 onChange={(value) => setCode(value)}
               >
                 <InputOTPGroup>
-                  <InputOTPSlot className="h-10 w-10 sm:h-14 sm:w-14 text-base sm:text-lg border-2 border-lime-500 rounded-lg" index={0} />
-                  <InputOTPSlot className="h-10 w-10 sm:h-14 sm:w-14 text-base sm:text-lg border-2 border-lime-500 rounded-lg" index={1} />
-                  <InputOTPSlot className="h-10 w-10 sm:h-14 sm:w-14 text-base sm:text-lg border-2 border-lime-500 rounded-lg" index={2} />
+                  <InputOTPSlot className="h-14 w-14 text-lg border-2 border-lime-500 rounded-lg" index={0} />
+                  <InputOTPSlot className="h-14 w-14 text-lg border-2 border-lime-500 rounded-lg" index={1} />
+                  <InputOTPSlot className="h-14 w-14 text-lg border-2 border-lime-500 rounded-lg" index={2} />
                 </InputOTPGroup>
                 <InputOTPSeparator />
                 <InputOTPGroup>
-                  <InputOTPSlot className="h-10 w-10 sm:h-14 sm:w-14 text-base sm:text-lg border-2 border-lime-500 rounded-lg" index={3} />
-                  <InputOTPSlot className="h-10 w-10 sm:h-14 sm:w-14 text-base sm:text-lg border-2 border-lime-500 rounded-lg" index={4} />
-                  <InputOTPSlot className="h-10 w-10 sm:h-14 sm:w-14 text-base sm:text-lg border-2 border-lime-500 rounded-lg" index={5} />
+                  <InputOTPSlot className="h-14 w-14 text-lg border-2 border-lime-500 rounded-lg" index={3} />
+                  <InputOTPSlot className="h-14 w-14 text-lg border-2 border-lime-500 rounded-lg" index={4} />
+                  <InputOTPSlot className="h-14 w-14 text-lg border-2 border-lime-500 rounded-lg" index={5} />
                 </InputOTPGroup>
               </InputOTP>
+              
             </div>
             {errorDisplay}
+            <motion.button
+              type="submit"
+              className="w-full bg-gradient-to-r from-lime-500 to-lime-700 text-white py-4 rounded-lg font-semibold text-lg shadow-lg hover:from-lime-600 hover:to-lime-800 transition-all"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Verify Email
+            </motion.button>
           </motion.form>
         )}
+
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-lime-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-64 h-64 bg-lime-700/10 rounded-full blur-3xl" />
       </div>
     </div>
   );

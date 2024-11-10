@@ -2,6 +2,7 @@
 
 import React, { useCallback, useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { api } from "~/trpc/react";
 import StudentsSkeleton from '~/app/_components/StudentsSkeleton';
 import StudentActionModal from '~/app/_components/StudentActionModal';
@@ -9,6 +10,7 @@ import GenerateReportModal from '~/app/_components/GenerateReportModal';
 import ConfirmModal from '~/app/_components/ConfirmModal';
 
 const StudentsPage: React.FC = () => {
+  const router = useRouter();
   const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
   const [selectAll, setSelectAll] = useState(false);

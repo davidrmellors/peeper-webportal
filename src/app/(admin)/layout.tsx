@@ -11,10 +11,14 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Navbar />
-      <main className="flex-grow p-6">
-        {children}
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
+      <div className="w-full lg:w-64 lg:min-h-screen">
+        <Navbar />
+      </div>
+      <main className="flex-grow p-4 sm:p-6 overflow-x-auto">
+        <div className="max-w-10xl mx-auto">
+          {children}
+        </div>
       </main>
     </div>
   );

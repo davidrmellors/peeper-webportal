@@ -90,8 +90,7 @@ const HowToPage = () => {
 
   return (
     <div className="relative">
-                  <Navbar isNavVisible={isNavVisible} />
-
+      <Navbar isNavVisible={isNavVisible} />
 
       <main className="pt-[72px]">
         {/* Hero Section */}
@@ -112,7 +111,7 @@ const HowToPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              How to use <span className="text-lime-500">Peeper</span>
+              How to use <span className="text-lime-500">HereNow</span>
             </motion.h1>
             <motion.p
               className="mx-auto max-w-2xl text-xl text-gray-600"
@@ -129,7 +128,7 @@ const HowToPage = () => {
         {/* Guides Section */}
         <section className="relative z-20 w-full overflow-hidden rounded-tl-[50px] rounded-tr-[50px] bg-gradient-to-b from-lime-500 to-lime-700 py-20">
           <div className="container mx-auto max-w-7xl px-4">
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-6">
               {guides.map((guide, index) => (
                 <GuideCard
                   key={guide.title}

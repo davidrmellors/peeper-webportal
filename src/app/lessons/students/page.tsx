@@ -174,7 +174,7 @@ const LessonsPage = () => {
       <main className="pt-[72px] min-h-screen bg-gray-50">
         <div className="container mx-auto max-w-7xl px-4 py-8">
           <motion.h1
-            className="text-4xl font-bold text-gray-800 mb-8 text-center"
+            className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -182,11 +182,13 @@ const LessonsPage = () => {
             How To Use <span className="text-lime-500">Peeper</span>
           </motion.h1>
           
-          <div className="flex gap-8">
-            <LessonSidebar 
-              activeLesson={activeLesson} 
-              setActiveLesson={setActiveLesson} 
-            />
+          <div className="flex flex-col lg:flex-row gap-8">
+            <div className="w-full lg:w-64">
+              <LessonSidebar 
+                activeLesson={activeLesson} 
+                setActiveLesson={setActiveLesson} 
+              />
+            </div>
             <div className="flex-1">
               <LessonContent lessonId={activeLesson} />
             </div>

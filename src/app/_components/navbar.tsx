@@ -1,61 +1,124 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, Building2, Settings } from 'lucide-react';
-import { usePrefetch } from '~/app/api/hooks/usePrefetch';
+import { Menu, X, LayoutDashboard, Users, Building2, LogOut, Settings } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useClerk } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
-const Navbar: React.FC = () => {
-  const [activeItem, setActiveItem] = useState('/');
+const Navbar = () => {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+  const { signOut } = useClerk();
+  const router = useRouter();
 
-  useEffect(() => {
-    setActiveItem(pathname);
-  }, [pathname]);
+  const links = [
+    { href: '/dashboard', label: 'DASHBOARD', icon: <LayoutDashboard size={20} /> },
+    { href: '/students', label: 'STUDENTS', icon: <Users size={20} /> },
+    { href: '/organisations', label: 'ORGANISATIONS', icon: <Building2 size={20} /> },
+    { href: '/settings', label: 'SETTINGS', icon: <Settings size={20} /> },
+  ];
 
-  return (
-    <nav className="flex flex-col w-64 h-screen bg-white border-r border-gray-200">
-      <div className="p-4 border-b border-gray-200">
-        <h1 className="text-xl font-bold mt-2">PEEPER</h1>
-        <p className="text-sm text-gray-600">Community Service Tracking</p>
-      </div>
-      
-      <div className="flex-grow">
-        <ul className="mt-4">
-          <NavItem href="/dashboard" label="DASHBOARD" icon={LayoutDashboard} active={activeItem === '/dashboard'} />
-          <NavItem href="/students" label="STUDENTS" icon={Users} active={activeItem === '/students'} />
-          <NavItem href="/organisations" label="ORGANISATIONS" icon={Building2} active={activeItem === '/organisations'} />
-        </ul>
-      </div>
-      
-      <div className="p-4 border-t border-gray-200">
-        <ul className="mt-2">
-          <NavItem href="/settings" label="SETTINGS" icon={Settings} active={activeItem === ''} />
-        </ul>
-      </div>
-    </nav>
-  );
-};
-
-const NavItem: React.FC<{ href: string; label: string; icon: React.ElementType; active: boolean }> = ({ href, label, icon: Icon, active }) => {
-  const { prefetchOrganisations, prefetchStudents } = usePrefetch();
-
-  const handleMouseEnter = () => {
-    if (label === 'ORGANISATIONS') {
-      prefetchOrganisations();
-    } else if (label === 'STUDENTS') {
-      prefetchStudents();
-    }
+  const handleSignOut = async () => {
+    await signOut(() => router.push('/'));
   };
 
+  const currentPage = links.find(link => pathname === link.href)?.label ?? 'DASHBOARD';
+
   return (
-    <li className={`mb-2 ${active ? 'bg-lime-500' : ''}`} onMouseEnter={handleMouseEnter}>
-      <Link href={href} className={`flex items-center px-4 py-2 ${active ? 'text-white font-bold' : 'text-gray-700'}`}>
-        <Icon className="mr-2" size={24} />
-        {label}
-      </Link>
-    </li>
+    <>
+      {/* Mobile header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <div className="flex items-center justify-between p-4">
+          <div className="flex items-center">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 hover:bg-gray-100 rounded-lg"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+          <h1 className="text-xl font-bold">{currentPage}</h1>
+          <div className="w-10" /> {/* Spacer for alignment */}
+        </div>
+      </div>
+
+      {/* Mobile menu overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
+            className="fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-40 lg:hidden"
+          >
+            <div className="flex flex-col h-full">
+              <div className="flex flex-col pt-16">
+                {links.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`px-6 py-4 text-sm font-medium transition-colors flex items-center gap-3 ${
+                      pathname === link.href
+                        ? 'bg-lime-500 text-white'
+                        : 'text-gray-600 hover:bg-lime-50'
+                    }`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.icon}
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+              <div className="mt-auto">
+                <button
+                  onClick={handleSignOut}
+                  className="mb-8 mx-6 py-4 px-6 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-3"
+                >
+                  <LogOut size={20} />
+                  LOGOUT
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Desktop sidebar */}
+      <div className="hidden lg:flex flex-col h-screen fixed w-64 bg-white shadow-lg">
+        <div className="p-6">
+          <h1 className="text-2xl font-bold">Peeper</h1>
+        </div>
+        <div className="flex flex-col flex-grow">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`px-6 py-4 text-sm font-medium transition-colors flex items-center gap-3 ${
+                pathname === link.href
+                  ? 'bg-lime-500 text-white'
+                  : 'text-gray-600 hover:bg-lime-50'
+              }`}
+            >
+              {link.icon}
+              {link.label}
+            </Link>
+          ))}
+          <div className="mt-auto">
+            <button
+              onClick={handleSignOut}
+              className="mb-8 mx-6 mt-2 py-4 px-6 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-3"
+            >
+              <LogOut size={20} />
+              LOGOUT
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

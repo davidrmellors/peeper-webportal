@@ -21,6 +21,7 @@ export default function SignIn() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -59,6 +60,8 @@ export default function SignIn() {
     e.preventDefault();
     if (!isLoaded || !signIn) return;
 
+    setErrorMessage('');
+
     try {
       const { supportedFirstFactors } = await signIn.create({
         identifier: email,
@@ -80,10 +83,10 @@ export default function SignIn() {
     } catch (err) {
       console.error("Error during sign-in:", err);
       if (err instanceof Error) {
-        alert(err.message || "An error occurred during sign-in. Please try again.");
+        setErrorMessage(err.message || "An error occurred during sign-in. Please try again.");
       } else {
         console.error("Unknown error:", err);
-        alert("An unknown error occurred during sign-in. Please try again.");
+        setErrorMessage("An unknown error occurred during sign-in. Please try again.");
       }
     }
   };
@@ -91,6 +94,8 @@ export default function SignIn() {
   const handleVerify = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isLoaded || !signIn) return;
+
+    setErrorMessage('');
 
     try {
       const result = await signIn.attemptFirstFactor({
@@ -103,18 +108,28 @@ export default function SignIn() {
         router.push("/dashboard");
       } else {
         console.log("Verification failed", result);
-        alert("Verification failed. Please try again.");
+        setErrorMessage("Verification failed. Please try again.");
       }
     } catch (err) {
       console.error("Error:", err);
       if (err instanceof Error) {
-        alert(err.message || "An error occurred during verification. Please try again.");
+        setErrorMessage(err.message || "An error occurred during verification. Please try again.");
       } else {
         console.error("Unknown error:", err);
-        alert("An unknown error occurred during verification. Please try again.");
+        setErrorMessage("An unknown error occurred during verification. Please try again.");
       }
     }
   };
+
+  const errorDisplay = errorMessage && (
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="text-red-500 text-sm mt-2 text-center"
+    >
+      {errorMessage}
+    </motion.div>
+  );
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden">
@@ -169,6 +184,7 @@ export default function SignIn() {
                 placeholder="Enter your email..."
                 required
               />
+              {errorDisplay}
             </div>
             <motion.button
               type="submit"
@@ -205,7 +221,9 @@ export default function SignIn() {
                   <InputOTPSlot className="h-14 w-14 text-lg border-2 border-lime-500 rounded-lg" index={5} />
                 </InputOTPGroup>
               </InputOTP>
+              
             </div>
+            {errorDisplay}
             <motion.button
               type="submit"
               className="w-full bg-gradient-to-r from-lime-500 to-lime-700 text-white py-4 rounded-lg font-semibold text-lg shadow-lg hover:from-lime-600 hover:to-lime-800 transition-all"

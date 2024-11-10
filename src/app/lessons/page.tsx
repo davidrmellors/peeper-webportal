@@ -111,7 +111,7 @@ const HowToPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              How to use <span className="text-lime-500">Peeper</span>
+              How to use <span className="text-lime-500">HereNow</span>
             </motion.h1>
             <motion.p
               className="mx-auto max-w-2xl text-xl text-gray-600"

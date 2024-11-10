@@ -38,7 +38,7 @@ const PublicNavigation = ({ isNavVisible }: { isNavVisible: boolean }) => {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="/" className="group relative text-3xl font-bold text-black">
-          <span className="relative z-10">Peeper</span>
+          <span className="relative z-10">HereNow</span>
           <motion.div
             className="absolute -bottom-1 left-0 h-1 rounded-full bg-lime-500"
             initial={{ width: "0%" }}
@@ -50,7 +50,7 @@ const PublicNavigation = ({ isNavVisible }: { isNavVisible: boolean }) => {
         <div className="relative flex items-center gap-4 overflow-hidden rounded-full bg-white px-6 py-2 shadow-lg backdrop-blur-sm">
           <div className="absolute top-1/2 left-0 w-8 h-8 animate-swim">
             <Image
-              src="/images/rubber-ducky.webp" // Use absolute path
+              src="/images/rubber-ducky.webp" 
               alt="Rubber Ducky"
               className="w-full h-full"
               width={32}

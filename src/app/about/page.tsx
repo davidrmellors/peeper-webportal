@@ -86,21 +86,21 @@ const AboutPage = () => {
 
   const developers = [
     {
-      name: "Jasper",
-      role: "Middle End Developer",
-      description: "Meet Jasper, our technical guru and Scrum Master. He ensures seamless system functionality and fosters a collaborative team environment.",
-      linkedInUrl: "https://www.linkedin.com/in/jasper",
-    },
-    {
       name: "Anneme",
       role: "Project Manager",
       description: "Meet Anneme, our Project Manager, Designer and Frontend Developer, ensuring smooth project flow, effective communication, and great design.",
       linkedInUrl: "https://www.linkedin.com/in/annemeholzhausen/",
     },
     {
+      name: "Jasper",
+      role: "Middle End Developer",
+      description: "Meet Jasper, our technical guru and Scrum Master. He ensures seamless system functionality and fosters a collaborative team environment.",
+      linkedInUrl: "https://www.linkedin.com/in/jasper",
+    },
+    {
       name: "Harvey",
       role: "Front/Middle End Developer",
-      description: "Meet Harvey, our UI/UX wizard. He ensures our application is intuitive, engaging, and seamlessly bridges design with system logic.",
+      description: "Meet Harvey, our Full Stack wizard. He ensures our application is intuitive, engaging, and seamlessly bridges the frontend logic with system logic.",
       linkedInUrl: "https://www.linkedin.com/in/joshua-harvey-/",
     },
     {
@@ -146,7 +146,7 @@ const AboutPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              About <span className="text-lime-500">Peeper</span>
+              About <span className="text-lime-500">HereNow</span>
             </motion.h1>
             <motion.p
               className="mx-auto max-w-2xl text-xl text-gray-600"

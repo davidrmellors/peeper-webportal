@@ -122,7 +122,7 @@ const HowToPage = () => {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <Link href="/" className="group relative text-3xl font-bold text-black">
-            <span className="relative z-10">Peeper</span>
+            <span className="relative z-10">HereNow</span>
             <motion.div
               className="absolute -bottom-1 left-0 h-1 rounded-full bg-lime-500"
               initial={{ width: "0%" }}
@@ -172,7 +172,7 @@ const HowToPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              How to use <span className="text-lime-500">Peeper</span>
+              How to use <span className="text-lime-500">HereNow</span>
             </motion.h1>
             <motion.p
               className="mx-auto max-w-2xl text-xl text-gray-600"
@@ -206,7 +206,7 @@ const HowToPage = () => {
 
         <footer className="flex w-full items-center justify-center bg-lime-700 py-8">
           <p className="text-center text-white">
-            &copy; {new Date().getFullYear()} Peeper. All rights reserved.
+            &copy; {new Date().getFullYear()} HereNow. All rights reserved.
           </p>
         </footer>
       </main>

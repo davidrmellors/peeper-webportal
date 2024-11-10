@@ -145,7 +145,7 @@ const HowToPage = () => {
 
         <footer className="flex w-full items-center justify-center bg-lime-700 py-8">
           <p className="text-center text-white">
-            &copy; {new Date().getFullYear()} Peeper. All rights reserved.
+            &copy; {new Date().getFullYear()} HereNow. All rights reserved.
           </p>
         </footer>
       </main>

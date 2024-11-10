@@ -90,7 +90,7 @@ const Navbar = () => {
       {/* Desktop sidebar */}
       <div className="hidden lg:flex flex-col h-screen fixed w-64 bg-white shadow-lg">
         <div className="p-6">
-          <h1 className="text-2xl font-bold">Peeper</h1>
+          <h1 className="text-2xl font-bold">HereNow</h1>
         </div>
         <div className="flex flex-col flex-grow">
           {links.map((link) => (

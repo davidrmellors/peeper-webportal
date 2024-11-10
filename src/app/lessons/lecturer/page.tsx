@@ -37,7 +37,7 @@ const lessons = [
     title: "Getting Started",
     emoji: "🚀",
     content: `
-      <h2 class="text-2xl font-bold mb-4">Welcome to Peeper!</h2>
+      <h2 class="text-2xl font-bold mb-4">Welcome to HereNow!</h2>
       <p class="mb-4">Let's get you started with the basics of using our platform...</p>
       <h3 class="text-xl font-semibold mb-3">First Steps:</h3>
       <ul class="list-disc pl-6 mb-4">
@@ -183,7 +183,7 @@ const LessonsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            How To Use <span className="text-lime-500">Peeper</span>
+            How To Use <span className="text-lime-500">HereNow</span>
           </motion.h1>
           
           <div className="flex gap-8">
@@ -201,7 +201,7 @@ const LessonsPage = () => {
       {/* Footer */}
       <footer className="flex w-full items-center justify-center bg-gradient-to-b from-lime-500 to-lime-700 py-8">
         <p className="text-center text-white">
-          &copy; {new Date().getFullYear()} Peeper. All rights reserved.
+          &copy; {new Date().getFullYear()} HereNow. All rights reserved.
         </p>
       </footer>
     </div>

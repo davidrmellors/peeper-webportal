@@ -215,7 +215,7 @@ const AboutPage = () => {
 
         <footer className="flex w-full items-center justify-center rounded-tl-[50px] rounded-tr-[50px] bg-gradient-to-b from-lime-500 to-lime-700 py-8">
           <p className="text-center text-white">
-            &copy; {new Date().getFullYear()} Peeper. All rights reserved.
+            &copy; {new Date().getFullYear()} HereNow. All rights reserved.
           </p>
         </footer>
       </main>

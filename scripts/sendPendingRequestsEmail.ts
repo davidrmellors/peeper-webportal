@@ -119,7 +119,7 @@ async function sendPendingRequestsEmail() {
                 <h1>Pending Organisation Requests</h1>
                 <p>The following organisations have requested to join the platform:</p>
                 <ul>${requestList}</ul>
-                <p>Please review these requests at your <a href="https://peeper-portal.vercel.app/dashboard">dashboard</a>.</p>
+                <p>Please review these requests at your <a href="https://herenow-portal.vercel.app/dashboard">dashboard</a>.</p>
             `,
     };
 

@@ -5,6 +5,7 @@ import type { LocationLog } from "~/server/db/databaseClasses/LocationLog";
 import {logoBase64} from '~/utils/logoBase64';
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
+const MAX_PATH_SEGMENTS = 50;
 
 // Add this function at the top of your file
 const getHtml2Pdf = async () => {
@@ -233,6 +234,36 @@ const getMinAndMaxDistance = (locationLogs: Array<LocationLog>) => {
     return { minDistance, maxDistance };
   };
   
+  const sampleLocationLogs = (locationLogs: Array<LocationLog>, maxSamples: number): Array<LocationLog> => {
+    // Early return if array is empty or undefined
+    if (!locationLogs?.length) return [];
+    if (locationLogs.length <= maxSamples) return locationLogs;
+    
+    const result: LocationLog[] = [];
+    const step = Math.floor(locationLogs.length / maxSamples);
+    
+    // Add first location log with type check
+    const firstLog = locationLogs[0];
+    if (firstLog) {
+      result.push(firstLog);
+    }
+    
+    // Add middle location logs with type checks
+    for (let i = step; i < locationLogs.length - step; i += step) {
+      const log = locationLogs[i];
+      if (log) {
+        result.push(log);
+      }
+    }
+    
+    // Add last location log with type check
+    const lastLog = locationLogs[locationLogs.length - 1];
+    if (lastLog) {
+      result.push(lastLog);
+    }
+    
+    return result;
+  };
 
   /**
  * Generate a static Google Maps image URL based on location data.
@@ -240,61 +271,57 @@ const getMinAndMaxDistance = (locationLogs: Array<LocationLog>) => {
  * @param apiKey - Google Maps API key.
  * @returns URL for the static Google Maps image.
  */
-const generateStaticMapURL = (
-    locationLogs: Array<LocationLog>,
-    apiKey: string
-  ): string => {
-    const baseUrl = "https://maps.googleapis.com/maps/api/staticmap?";
+const generateStaticMapURL = (locationLogs: Array<LocationLog>, apiKey: string): string => {
+  const sampledLogs = sampleLocationLogs(locationLogs, MAX_PATH_SEGMENTS);
   
-    // Calculate the center of the map based on the average latitude and longitude
-    const avgLat =
-      locationLogs.reduce((sum, pin) => sum + parseFloat(pin.latitude.toString()), 0) /
-      locationLogs.length;
-    const avgLng =
-      locationLogs.reduce(
-        (sum, pin) => sum + parseFloat(pin.longitude.toString()),
-        0
-      ) / locationLogs.length;
-    const center = `center=${avgLat},${avgLng}`;
+  // Early return if no logs
+  if (!sampledLogs.length) {
+    return `https://maps.googleapis.com/maps/api/staticmap?center=0,0&zoom=1&size=600x400&key=${apiKey}`;
+  }
+
+  const baseUrl = "https://maps.googleapis.com/maps/api/staticmap?";
   
-    // Dynamically calculate zoom level based on location data spread
-    const zoom = `zoom=${calculateZoomLevel(locationLogs)}`;
-    const size = "size=600x400";
-    const mapType = "maptype=roadmap";
+  // Calculate average coordinates with type safety
+  const avgLat = sampledLogs.reduce((sum, pin) => sum + Number(pin?.latitude ?? 0), 0) / sampledLogs.length;
+  const avgLng = sampledLogs.reduce((sum, pin) => sum + Number(pin?.longitude ?? 0), 0) / sampledLogs.length;
   
-    const { minDistance, maxDistance } = getMinAndMaxDistance(locationLogs);
+  const center = `center=${avgLat},${avgLng}`;
+  const zoom = `zoom=${calculateZoomLevel(sampledLogs)}`;
+  const size = "size=600x400";
+  const mapType = "maptype=roadmap";
+
+  const { minDistance, maxDistance } = getMinAndMaxDistance(sampledLogs);
+
+  const pathSegments = [];
+  for (let i = 0; i < sampledLogs.length - 1; i++) {
+    const pin1 = sampledLogs[i];
+    const pin2 = sampledLogs[i + 1];
+
+    if (!pin1 || !pin2) continue;
+
+    const distance = haversineDistance(
+      Number(pin1.latitude ?? 0),
+      Number(pin1.longitude ?? 0),
+      Number(pin2.latitude ?? 0),
+      Number(pin2.longitude ?? 0)
+    );
+
+    const color = getColorBasedOnDistance(distance, minDistance, maxDistance);
+    pathSegments.push(
+      `path=color:${color}|weight:2|${pin1.latitude},${pin1.longitude}|${pin2.latitude},${pin2.longitude}`
+    );
+  }
   
-    // Generate polyline path to connect the pins with varying colors
-    const pathSegments = [];
-    for (let i = 0; i < locationLogs.length - 1; i++) {
-      const pin1 = locationLogs[i];
-      const pin2 = locationLogs[i + 1];
-      const pin1Latitude = Number(pin1?.latitude ?? 0);
-      const pin1Longitude = Number(pin1?.longitude ?? 0);
-      const pin2Latitude = Number(pin2?.latitude ?? 0);
-      const pin2Longitude = Number(pin2?.longitude ?? 0);
-      const distance = haversineDistance(
-        pin1Latitude,
-        pin1Longitude,
-        pin2Latitude,
-        pin2Longitude
-      );
-  
-      const color = getColorBasedOnDistance(distance, minDistance, maxDistance);
-      pathSegments.push(
-        `path=color:${color}|weight:2|${pin1Latitude},${pin1Longitude}|${pin2Latitude},${pin2Longitude}`
-      );
-    }
-    const path = pathSegments.join("&");
-    // Generate the markers parameter for each pin with labels showing the count
-    const markers = locationLogs.map(
-      (pin, index) =>
-        `markers=color:red%7Clabel:${index + 1}%7C${pin.latitude},${
-          pin.longitude
-        }`
-    ).join("&");
-    return `${baseUrl}${center}&${zoom}&${size}&${mapType}&${path}&${markers}&key=${apiKey}`;
-  };
+  const path = pathSegments.join("&");
+  const markers = sampledLogs
+    .filter(pin => pin?.latitude && pin?.longitude) // Filter out invalid pins
+    .map((pin, index) => 
+      `markers=color:red%7Clabel:${index + 1}%7C${pin.latitude},${pin.longitude}`
+    )
+    .join("&");
+
+  return `${baseUrl}${center}&${zoom}&${size}&${mapType}&${path}&${markers}&key=${apiKey}`;
+};
   
   /**
    * Calculate the average speed between location logs in kilometers per hour.

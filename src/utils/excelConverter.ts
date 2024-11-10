@@ -12,13 +12,19 @@ export async function generateExcelWorkbook(
   const workbook = XLSX.utils.book_new();
 
   for (const student of students) {
-    
+    // Map org IDs to org names
+    const activeOrgNames = student.activeOrgs
+      .map(orgId => {
+        const org = organisations.find(o => o.org_id === orgId);
+        return org?.orgName ?? "Unknown Organization";
+      })
+      .join(", ");
 
     const wsData: WorksheetData = [
       ["Student Details", "", "", "", ""],
       ["Student Number", student.studentNumber, "", "", ""],
       ["Email", student.email, "", "", ""],
-      ["Active Organizations", student.activeOrgs.join(", "), "", "", ""],
+      ["Active Organizations", activeOrgNames, "", "", ""],
       ["Number of Sessions", Object.keys(student.locationData).length.toString(), "", "", ""],
       ["Hours Completed", student.hours?.toString() ?? "0", "", "", ""],
       ["", "", "", "", ""],
